@@ -232,26 +232,14 @@ class _CombosScreen extends ConsumerWidget {
             final c = combos[i];
             final isFav = favIds.contains(c.id);
 
-            return TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0, end: 1),
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOutCubic,
-              builder: (context, value, child) {
-                return Opacity(
-                  opacity: value,
-                  child: Transform.translate(
-                    offset: Offset(0, (1 - value) * 12),
-                    child: child,
-                  ),
-                );
-              },
+            return ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 112),
               child: _ComboCard(
                 combo: c,
                 isFav: isFav,
                 onTap: () => openCombo(c.id),
-                onToggleFavorite: () => ref
-                    .read(favoritesNotifierProvider.notifier)
-                    .toggle(c.id),
+                onToggleFavorite: () =>
+                    ref.read(favoritesNotifierProvider.notifier).toggle(c.id),
               ),
             );
           },
@@ -281,6 +269,8 @@ class _ComboCard extends StatelessWidget {
     return Pressable(
       onTap: onTap,
       child: Stack(
+        fit: StackFit.passthrough,
+        clipBehavior: Clip.none,
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(radius),
@@ -357,7 +347,7 @@ class _ComboCard extends StatelessWidget {
                 label: const Text('HOT'),
                 backgroundColor: const Color(0xFFFF5C5C),
                 textColor: Colors.white,
-                child: const SizedBox(width: 6, height: 6),
+                child: const SizedBox(width: 20, height: 20),
               ),
             ),
         ],
