@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../combos/application/combo_filter_state.dart';
 import '../../combos/application/combos_providers.dart';
 import '../../combos/domain/combo.dart';
 import 'favorites_notifier.dart';
@@ -15,14 +16,19 @@ enum FavoritesSort {
 }
 
 final favoritesSortProvider =
-StateProvider.autoDispose<FavoritesSort>((ref) => FavoritesSort.added);
+    StateProvider.autoDispose<FavoritesSort>((ref) => FavoritesSort.added);
 
-final sortedFavoritesProvider =
-FutureProvider.autoDispose<List<Combo>>((ref) async {
+final sortedFavoritesProvider = FutureProvider.autoDispose<List<Combo>>((ref) async {
   final all = await ref.watch(combosProvider.future);
   final favIds = ref.watch(favoritesIdsProvider);
+  final selectedBases = ref.watch(selectedBasesProvider);
 
-  final favorites = all.where((c) => favIds.contains(c.id)).toList();
+  final favorites = all.where((c) {
+    final isFavorite = favIds.contains(c.id);
+    final basePass = selectedBases.isEmpty || selectedBases.contains(c.base.type);
+    return isFavorite && basePass;
+  }).toList();
+
   final sort = ref.watch(favoritesSortProvider);
 
   int alcoholRank(String v) {
