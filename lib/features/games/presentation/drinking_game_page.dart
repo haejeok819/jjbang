@@ -144,81 +144,81 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            '랜덤 술게임',
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w900,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Wrap(
-            spacing: 8,
-            children: GameMood.values
-                .map(
-                  (mood) => ChoiceChip(
-                    label: Text(mood.label),
-                    selected: _selectedMood == mood,
-                    onSelected: (_) => _changeMood(mood),
-                  ),
-                )
-                .toList(),
-          ),
-          const SizedBox(height: 16),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    _currentMission ?? '아래 버튼을 눌러 미션을 시작해보세요 🍻',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    '라운드 $_round · 남은 미션 ${_deck.length}개',
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.black54,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 14),
-          Stack(
-            alignment: Alignment.center,
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              Text(
+                '랜덤 술게임',
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                children: GameMood.values
+                    .map(
+                      (mood) => ChoiceChip(
+                        label: Text(mood.label),
+                        selected: _selectedMood == mood,
+                        onSelected: (_) => _changeMood(mood),
+                      ),
+                    )
+                    .toList(),
+              ),
+              const SizedBox(height: 16),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _currentMission ?? '아래 버튼을 눌러 미션을 시작해보세요 🍻',
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        '라운드 $_round · 남은 미션 ${_deck.length}개',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 14),
               FilledButton.icon(
                 onPressed: _pickMission,
                 icon: const Icon(Icons.casino),
                 label: Text(_currentMission == null ? '미션 시작' : '다음 미션'),
               ),
-              if (_burstSeed > 0)
-                IgnorePointer(
-                  child: _MissionBurst(seed: _burstSeed),
+              const Spacer(),
+              Text(
+                'TIP: 과음은 금물! 물도 같이 마셔요 💧',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w600,
                 ),
+              ),
             ],
           ),
-          const Spacer(),
-          Text(
-            'TIP: 과음은 금물! 물도 같이 마셔요 💧',
-            textAlign: TextAlign.center,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: Colors.black54,
-              fontWeight: FontWeight.w600,
-            ),
+        ),
+        if (_burstSeed > 0)
+          IgnorePointer(
+            child: _MissionBurst(seed: _burstSeed),
           ),
-        ],
-      ),
+      ],
     );
   }
 }
@@ -231,29 +231,32 @@ class _MissionBurst extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final random = Random(seed);
-    final particles = List.generate(14, (_) {
+    final shortestSide = MediaQuery.of(context).size.shortestSide;
+    final burstRadius = shortestSide * 0.28;
+
+    final particles = List.generate(32, (_) {
       final angle = random.nextDouble() * pi * 2;
-      final distance = 26 + random.nextDouble() * 34;
+      final distance = burstRadius * (0.45 + random.nextDouble() * 0.9);
       return (
         dx: cos(angle) * distance,
         dy: sin(angle) * distance,
         icon: random.nextBool() ? Icons.star_rounded : Icons.circle,
         color: Colors.primaries[random.nextInt(Colors.primaries.length)],
-        size: 8.0 + random.nextDouble() * 10,
+        size: 16.0 + random.nextDouble() * 30,
       );
     });
 
     return TweenAnimationBuilder<double>(
       key: ValueKey(seed),
       tween: Tween(begin: 0, end: 1),
-      duration: const Duration(milliseconds: 520),
+      duration: const Duration(milliseconds: 680),
       curve: Curves.easeOutCubic,
       builder: (context, t, _) {
         return Opacity(
           opacity: (1 - t).clamp(0, 1),
           child: SizedBox(
-            width: 220,
-            height: 90,
+            width: shortestSide,
+            height: shortestSide,
             child: Stack(
               alignment: Alignment.center,
               children: [

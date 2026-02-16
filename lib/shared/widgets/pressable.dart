@@ -1,48 +1,46 @@
 import 'package:flutter/material.dart';
 
 class Pressable extends StatefulWidget {
-  final Widget child;
-  final VoidCallback onTap;
-
   const Pressable({
     super.key,
     required this.child,
     required this.onTap,
   });
 
+  final Widget child;
+  final VoidCallback onTap;
+
   @override
   State<Pressable> createState() => _PressableState();
 }
 
 class _PressableState extends State<Pressable> {
-  bool _down = false;
+  bool _pressed = false;
 
-  void _setDown(bool v) {
-    if (_down == v) return;
-    setState(() => _down = v);
+  void _setPressed(bool value) {
+    if (_pressed == value) return;
+    setState(() => _pressed = value);
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTapDown: (_) => _setDown(true),
-      onTapCancel: () => _setDown(false),
-      onTapUp: (_) => _setDown(false),
-      onTap: () async {
-        _setDown(true);
-        await Future.delayed(const Duration(milliseconds: 70));
-        if (!mounted) return;
-        _setDown(false);
-        await Future.delayed(const Duration(milliseconds: 40));
-        if (!mounted) return;
-        widget.onTap();
-      },
-      child: AnimatedScale(
-        scale: _down ? 0.98 : 1.0,
-        duration: const Duration(milliseconds: 90),
-        curve: Curves.easeOut,
-        child: widget.child,
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: widget.onTap,
+        onHighlightChanged: _setPressed,
+        borderRadius: BorderRadius.circular(24),
+        splashFactory: InkRipple.splashFactory,
+        child: AnimatedScale(
+          scale: _pressed ? 0.985 : 1.0,
+          duration: const Duration(milliseconds: 100),
+          curve: Curves.easeOut,
+          child: AnimatedOpacity(
+            opacity: _pressed ? 0.96 : 1.0,
+            duration: const Duration(milliseconds: 100),
+            child: widget.child,
+          ),
+        ),
       ),
     );
   }
