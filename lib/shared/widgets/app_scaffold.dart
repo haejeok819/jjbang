@@ -209,59 +209,58 @@ class _CombosScreenState extends ConsumerState<_CombosScreen> {
           toolbarHeight: 130,
           elevation: 0,
           backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          titleSpacing: 0,
-          title: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 6, 16, 8),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Image.asset(
-                    'assets/logo.png',
-                    height: 64,
-                    fit: BoxFit.contain,
-                  ),
+          centerTitle: true,
+          title: Image.asset(
+            'assets/logo.png',
+            height: 120,
+            fit: BoxFit.contain,
+          ),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(56),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: SizedBox(
+                height: 46,
+                child: SearchBar(
+                  controller: _searchController,
+                  leading: const Icon(Icons.search),
+                  hintText: '조합 이름 또는 베이스 술/음료를 검색해보세요 !',
+                  onChanged: (value) =>
+                      ref.read(comboFilterProvider.notifier).setQuery(value),
+                  onSubmitted: (_) =>
+                      FocusManager.instance.primaryFocus?.unfocus(),
+                  trailing: [
+                    if (query.isNotEmpty)
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        tooltip: '검색어 지우기',
+                        onPressed: clearQuery,
+                      ),
+                  ],
                 ),
-                const SizedBox(height: 6),
-                SizedBox(
-                  height: 46,
-                  child: SearchBar(
-                    controller: _searchController,
-                    leading: const Icon(Icons.search),
-                    hintText: '조합 이름 또는 베이스 술/음료를 검색해보세요 !',
-                    onChanged: (value) =>
-                        ref.read(comboFilterProvider.notifier).setQuery(value),
-                    onSubmitted: (_) =>
-                        FocusManager.instance.primaryFocus?.unfocus(),
-                    trailing: [
-                      if (query.isNotEmpty)
-                        IconButton(
-                          icon: const Icon(Icons.close),
-                          tooltip: '검색어 지우기',
-                          onPressed: clearQuery,
-                        ),
-                    ],
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-          bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(1),
-            child: Divider(height: 1),
-          ),
         ),
-        const SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: ComboSortChips(),
-          ),
-        ),
-        const SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
-            child: ComboFilterChips(),
+        SliverPersistentHeader(
+          pinned: true,
+          delegate: _PinnedCombosControlsHeaderDelegate(
+            child: Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+              child: const Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+                    child: ComboSortChips(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                    child: ComboFilterChips(),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
         ...asyncCombos.when(
@@ -286,7 +285,7 @@ class _CombosScreenState extends ConsumerState<_CombosScreen> {
 
             return [
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, i) {
@@ -316,6 +315,28 @@ class _CombosScreenState extends ConsumerState<_CombosScreen> {
         ),
       ],
     );
+  }
+}
+
+class _PinnedCombosControlsHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+
+  const _PinnedCombosControlsHeaderDelegate({required this.child});
+
+  @override
+  double get minExtent => 112;
+
+  @override
+  double get maxExtent => 112;
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+    return child;
+  }
+
+  @override
+  bool shouldRebuild(covariant _PinnedCombosControlsHeaderDelegate oldDelegate) {
+    return oldDelegate.child != child;
   }
 }
 
