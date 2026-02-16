@@ -71,16 +71,26 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          titles[_index],
-          style: const TextStyle(fontFamily: 'NanumSquare', fontWeight: FontWeight.w800),
-        ),
         centerTitle: true,
-        toolbarHeight: 68,
-        title: Image.asset(
-          'assets/logo.png',
-          height: 60,
-          fit: BoxFit.contain,
+        toolbarHeight: 100, // 높이 늘려야 여유 생김
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'assets/logo.png',
+              height: 60,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 6), // 한 줄 띄우기
+            Text(
+              titles[_index],
+              style: const TextStyle(
+                fontFamily: 'NanumSquare',
+                fontWeight: FontWeight.w800,
+                fontSize: 30,
+              ),
+            ),
+          ],
         ),
         actions: [
           if (_index == _tabCombos)
