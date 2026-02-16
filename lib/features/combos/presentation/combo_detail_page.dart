@@ -68,6 +68,7 @@ class ComboDetailPage extends ConsumerWidget {
 
           Text('재료', style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
+          Text('• ${combo.base.type} ${combo.base.ratio}'),
           ...combo.mixers.map((m) => Text('• ${m.name} ${m.ratio}')),
           const SizedBox(height: 16),
           Text('만드는 법', style: Theme.of(context).textTheme.titleMedium),
