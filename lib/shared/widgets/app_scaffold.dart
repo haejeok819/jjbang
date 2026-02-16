@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:jjbang/features/favorites/presentation/favorites_page.dart';
 import 'package:jjbang/features/favorites/state/favorites_notifier.dart';
+import 'package:jjbang/features/games/presentation/drinking_game_page.dart';
 
 import 'package:jjbang/features/combos/presentation/combo_detail_dialog.dart';
 import 'package:jjbang/features/combos/presentation/widgets/combos_appbar_search.dart';
@@ -48,7 +49,7 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
   }
 
   void _onTabSelected(int i) {
-    final isEnabled = i == _tabCombos || i == _tabFavorites;
+    final isEnabled = i == _tabCombos || i == _tabGames || i == _tabFavorites;
     if (!isEnabled) {
       _showComingSoon();
       return;
@@ -61,18 +62,12 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
     final pages = <Widget>[
       const _CombosScreen(),
       const _ComingSoonScreen(title: '칵테일 레시피'),
-      const _ComingSoonScreen(title: '술게임'),
+      const DrinkingGamePage(),
       const _ComingSoonScreen(title: '밸런스 게임'),
       const FavoritesPage(),
     ];
 
-    final titles = <String>[
-      '주정뱅이',
-      '주정뱅이',
-      '주정뱅이',
-      '주정뱅이',
-      '주정뱅이'
-    ];
+    final titles = <String>['주정뱅이', '칵테일 레시피', '술게임', '밸런스 게임', '즐겨찾기'];
 
     return Scaffold(
       appBar: AppBar(
@@ -98,7 +93,6 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
               },
             ),
         ],
-
       ),
       body: _index == _tabCombos
           ? Column(
