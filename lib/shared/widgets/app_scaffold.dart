@@ -73,6 +73,7 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
       const FavoritesPage(),
     ];
 
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -134,14 +135,14 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
             label: '레시피',
           ),
           NavigationDestination(
-            icon: Icon(Icons.casino_outlined),
-            selectedIcon: Icon(Icons.casino),
-            label: '술게임',
-          ),
-          NavigationDestination(
             icon: Icon(Icons.forum_outlined),
             selectedIcon: Icon(Icons.forum),
             label: '대화소재',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.casino_outlined),
+            selectedIcon: Icon(Icons.casino),
+            label: '술게임',
           ),
           NavigationDestination(
             icon: Icon(Icons.star_border),
