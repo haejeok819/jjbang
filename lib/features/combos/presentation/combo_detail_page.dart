@@ -3,7 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../state/combos_providers.dart';
 import '../../favorites/state/favorites_notifier.dart';
 import 'widgets/ratio_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../favorites/state/favorites_notifier.dart';
+import '../application/filtered_combo_provider.dart'; // combo 모델 접근 방식에 따라 필요 없으면 제거
+import 'widgets/favorite_pop_button.dart';
 
 class ComboDetailPage extends ConsumerWidget {
   final String comboId;

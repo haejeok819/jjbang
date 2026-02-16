@@ -61,17 +61,17 @@ class _AppScaffoldState extends State<AppScaffold> {
   Widget build(BuildContext context) {
     final pages = <Widget>[
       const _CombosScreen(),
-      const _ComingSoonScreen(title: '칵테일'),
+      const _ComingSoonScreen(title: '칵테일 레시피'),
       const _ComingSoonScreen(title: '술게임'),
-      const _ComingSoonScreen(title: '토론'),
+      const _ComingSoonScreen(title: '밸런스 게임'),
       const FavoritesPage(),
     ];
 
     final titles = <String>[
       '주정뱅이',
-      '칵테일',
+      '칵테일 레시피',
       '술게임',
-      '토론',
+      '밸런스 게임',
       '즐겨찾기',
     ];
 
@@ -93,7 +93,7 @@ class _AppScaffoldState extends State<AppScaffold> {
           NavigationDestination(
             icon: Icon(Icons.local_bar_outlined),
             selectedIcon: Icon(Icons.local_bar),
-            label: '칵테일',
+            label: '칵테일 레시피',
           ),
           NavigationDestination(
             icon: Icon(Icons.casino_outlined),
@@ -103,7 +103,7 @@ class _AppScaffoldState extends State<AppScaffold> {
           NavigationDestination(
             icon: Icon(Icons.forum_outlined),
             selectedIcon: Icon(Icons.forum),
-            label: '토론',
+            label: '밸런스 게임',
           ),
           NavigationDestination(
             icon: Icon(Icons.star_border),

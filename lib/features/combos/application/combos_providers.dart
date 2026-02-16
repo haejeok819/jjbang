@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/combo.dart';
 import '../data/combo_repository.dart';
 import '../data/combo_repository_local.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ComboChip {
   soju('소주'),
@@ -16,6 +17,19 @@ enum ComboChip {
   final String label;
   const ComboChip(this.label);
 }
+
+enum ComboSort {
+  popularity('인기'),
+  alcohol('도수'),
+  difficulty('난이도');
+
+  final String label;
+  const ComboSort(this.label);
+}
+
+final comboSortProvider =
+StateProvider.autoDispose<ComboSort>((ref) => ComboSort.popularity);
+
 
 final comboRepositoryProvider = Provider<ComboRepository>((ref) {
   return LocalComboRepository();
@@ -85,3 +99,6 @@ final comboByIdProvider = Provider.family<Combo?, String>((ref, id) {
     orElse: () => null,
   );
 });
+
+
+final combosSearchOpenProvider = StateProvider.autoDispose<bool>((ref) => false);

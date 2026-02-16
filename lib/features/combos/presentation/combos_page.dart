@@ -1,67 +1,86 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../state/combos_providers.dart';
-import 'widgets/combo_search_field.dart';
+
+import '../application/combo_filter_state.dart';
+import '../application/filtered_combo_provider.dart';
+import '../application/combos_providers.dart' as p;
+
 import 'widgets/combo_filter_chips.dart';
-import 'combo_detail_page.dart';
-import '../../favorites/state/favorites_notifier.dart';
+import 'widgets/combo_sort_chips.dart';
+import 'widgets/combos_appbar_search.dart';
 
 class CombosPage extends ConsumerWidget {
   const CombosPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final filteredAsync = ref.watch(filteredCombosProvider);
+    final async = ref.watch(filteredComboProvider);
+    final filter = ref.watch(comboFilterProvider);
+    final sort = ref.watch(comboSortProvider);
+    final keySig = '${filter.query}|${filter.selectedBases.join(",")}|$sort';
 
     return Scaffold(
-      appBar: AppBar(title: const Text('조합')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            const ComboSearchField(),
-            const SizedBox(height: 12),
-            const ComboFilterChips(),
-            const SizedBox(height: 12),
-            Expanded(
-              child: filteredAsync.when(
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (e, _) => Center(child: Text('$e')),
+      appBar: AppBar(
+        title: const Text('주정뱅이'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              final cur = ref.read(p.combosSearchOpenProvider);
+              ref.read(p.combosSearchOpenProvider.notifier).state = !cur;
+              if (cur) {
+                ref.read(comboFilterProvider.notifier).setQuery('');
+              }
+            },
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          const CombosAppbarSearch(),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Column(
+              children: [
+                SizedBox(height: 8),
+                ComboFilterChips(),
+                SizedBox(height: 12),
+                ComboSortChips(),
+                SizedBox(height: 12),
+              ],
+            ),
+          ),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 220),
+              switchInCurve: Curves.easeOut,
+              switchOutCurve: Curves.easeIn,
+              child: async.when(
+                loading: () => const Center(
+                  key: ValueKey('loading'),
+                  child: CircularProgressIndicator(),
+                ),
+                error: (e, _) => Center(
+                  key: const ValueKey('error'),
+                  child: Text('$e'),
+                ),
                 data: (items) {
                   if (items.isEmpty) {
-                    return const Center(child: Text('검색 결과가 없어요'));
+                    return const Center(
+                      key: ValueKey('empty'),
+                      child: Text('조건에 맞는 조합이 없어요'),
+                    );
                   }
 
-                  final fav = ref.watch(favoritesIdsProvider);
-
                   return ListView.builder(
+                    key: ValueKey(keySig),
                     itemCount: items.length,
-                    itemBuilder: (context, i) {
+                    itemBuilder: (_, i) {
                       final c = items[i];
-                      final id = c.id;
-                      final isFav = fav.contains(id);
-
-                      return Card(
-                        child: ListTile(
-                          title: Text(c.name),
-                          subtitle: Text(
-                            '${c.base.type} (${c.base.ratio}) · ${c.taste.join(" / ")}',
-                          ),
-                          trailing: IconButton(
-                            icon: Icon(
-                              isFav ? Icons.favorite : Icons.favorite_border,
-                            ),
-                            onPressed: () => ref
-                                .read(favoritesNotifierProvider.notifier)
-                                .toggle(id),
-                          ),
-                          onTap: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (_) => ComboDetailPage(comboId: id),
-                              ),
-                            );
-                          },
+                      return ListTile(
+                        title: Text(c.name),
+                        subtitle: Text(
+                          '${c.base.type} · ${c.alcoholLevel} · ${c.difficulty}',
                         ),
                       );
                     },
@@ -69,8 +88,8 @@ class CombosPage extends ConsumerWidget {
                 },
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

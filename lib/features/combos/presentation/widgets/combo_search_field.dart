@@ -1,41 +1,17 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../state/combos_providers.dart';
+import '../../application/combo_filter_state.dart';
 
-class ComboSearchField extends ConsumerStatefulWidget {
+class ComboSearchField extends ConsumerWidget {
   const ComboSearchField({super.key});
 
   @override
-  ConsumerState<ComboSearchField> createState() => _ComboSearchFieldState();
-}
-
-class _ComboSearchFieldState extends ConsumerState<ComboSearchField> {
-  final _c = TextEditingController();
-  Timer? _t;
-
-  @override
-  void dispose() {
-    _t?.cancel();
-    _c.dispose();
-    super.dispose();
-  }
-
-  void _onChanged(String v) {
-    _t?.cancel();
-    _t = Timer(const Duration(milliseconds: 300), () {
-      ref.read(searchQueryProvider.notifier).state = v;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
-      controller: _c,
-      onChanged: _onChanged,
+      onChanged: (v) => ref.read(comboFilterProvider.notifier).setQuery(v),
       textInputAction: TextInputAction.search,
       decoration: const InputDecoration(
-        hintText: '조합 이름/베이스/태그 검색',
+        hintText: '조합 이름 또는 베이스 술을 검색하세요',
         prefixIcon: Icon(Icons.search),
       ),
     );

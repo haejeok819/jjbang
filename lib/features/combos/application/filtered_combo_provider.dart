@@ -1,29 +1,88 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/combo.dart';
-import '../data/combo_repository.dart';
-import '../data/combo_repository_local.dart';
+import '../application/combos_providers.dart';
 import 'combo_filter_state.dart';
 import 'debounced_query_provider.dart';
 
-final filteredComboProvider = FutureProvider<List<Combo>>((ref) async {
-  final combos = await ref.watch(comboListProvider.future);
+enum ComboSort {
+  popularity('인기'),
+  alcohol('도수'),
+  difficulty('난이도');
+
+  final String label;
+  const ComboSort(this.label);
+}
+
+final comboSortProvider =
+StateProvider.autoDispose<ComboSort>((ref) => ComboSort.popularity);
+
+final filteredComboProvider = FutureProvider.autoDispose<List<Combo>>((ref) async {
+  final items = await ref.watch(combosProvider.future);
 
   final filter = ref.watch(comboFilterProvider);
-  final debouncedQuery = ref.watch(debouncedQueryProvider).value ?? '';
+  final sort = ref.watch(comboSortProvider);
+  final debounced = ref.watch(debouncedQueryProvider).value ?? filter.query;
 
-  final q = debouncedQuery.trim().toLowerCase();
-  final selected = filter.selectedBases;
+  final q = debounced.trim().toLowerCase();
+  final selectedBases = filter.selectedBases;
 
-  final result = combos.where((c) {
-    final matchesQuery = q.isEmpty ||
-        c.name.toLowerCase().contains(q) ||
-        c.base.toLowerCase().contains(q) ||
-        c.tasteTags.any((t) => t.toLowerCase().contains(q));
+  bool queryPass(Combo c) {
+    if (q.isEmpty) return true;
 
-    final matchesBase = selected.isEmpty || selected.contains(c.base);
+    final hay = <String>[
+      c.name,
+      c.base.type,
+      ...c.taste,
+      ...c.keywords,
+      ...c.extraTags,
+    ].join(' ').toLowerCase();
 
-    return matchesQuery && matchesBase;
-  }).toList();
+    return hay.contains(q);
+  }
 
-  return result;
+  bool chipPass(Combo c) {
+    if (selectedBases.isEmpty) return true;
+    return selectedBases.contains(c.base.type);
+  }
+
+  int alcoholRank(String v) {
+    switch (v) {
+      case '낮음':
+        return 0;
+      case '중간':
+        return 1;
+      case '높음':
+        return 2;
+      default:
+        return 999;
+    }
+  }
+
+  int difficultyRank(String v) {
+    switch (v) {
+      case '쉬움':
+        return 0;
+      case '보통':
+        return 1;
+      case '어려움':
+        return 2;
+      default:
+        return 999;
+    }
+  }
+
+  final filtered = items.where((c) => queryPass(c) && chipPass(c)).toList();
+
+  filtered.sort((a, b) {
+    switch (sort) {
+      case ComboSort.popularity:
+        return b.popularity.compareTo(a.popularity);
+      case ComboSort.alcohol:
+        return alcoholRank(b.alcoholLevel).compareTo(alcoholRank(a.alcoholLevel));
+      case ComboSort.difficulty:
+        return difficultyRank(b.difficulty).compareTo(difficultyRank(a.difficulty));
+    }
+  });
+
+  return filtered;
 });
