@@ -11,12 +11,16 @@ class FavoritesSortChips extends ConsumerWidget {
     final current = ref.watch(favoritesSortProvider);
 
     return SizedBox(
-      height: 46,
+      height: 48,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        physics: const BouncingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
+        primary: false,
+        dragStartBehavior: DragStartBehavior.down,
         child: Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
+            const SizedBox(width: 16),
             for (final s in FavoritesSort.values) ...[
               ChoiceChip(
                 label: Text(s.label),
@@ -25,6 +29,7 @@ class FavoritesSortChips extends ConsumerWidget {
               ),
               const SizedBox(width: 8),
             ],
+            const SizedBox(width: 16),
           ],
         ),
       ),
