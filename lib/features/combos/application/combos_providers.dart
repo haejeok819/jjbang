@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/combo.dart';
 import '../data/combo_repository.dart';
 import '../data/combo_repository_local.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ComboChip {
   soju('소주'),

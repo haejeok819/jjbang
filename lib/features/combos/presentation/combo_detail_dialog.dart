@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../state/combos_providers.dart';
+import '../application/combos_providers.dart';
 import '../../favorites/state/favorites_notifier.dart';
 import 'widgets/ratio_bar.dart';
 
