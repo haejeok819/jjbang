@@ -58,9 +58,7 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
         loaded[mood] = missions;
       }
 
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
 
       setState(() {
         _missionsByMood = loaded;
@@ -71,9 +69,7 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
         _resetDeck();
       });
     } catch (e) {
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
       setState(() {
         _loading = false;
         _loadError = '미션 데이터를 불러오지 못했어요. ($e)';
@@ -83,8 +79,7 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
 
   void _resetDeck() {
     final missions = _missionsByMood[_selectedMood] ?? const <String>[];
-    final original = List<String>.from(missions);
-    original.shuffle(_random);
+    final original = List<String>.from(missions)..shuffle(_random);
     _deck = original;
   }
 
@@ -92,7 +87,6 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
     if (_deck.isEmpty) {
       _resetDeck();
     }
-
     if (_deck.isEmpty) {
       return;
     }
@@ -198,10 +192,41 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
             ),
           ),
         ),
-        if (_burstSeed > 0)
-          IgnorePointer(
-            child: _MissionBurst(seed: _burstSeed),
+      ),
+    );
+  }
+}
+
+class _StartButtonSection extends StatelessWidget {
+  const _StartButtonSection({
+    required this.mission,
+    required this.onNext,
+  });
+
+  final String? mission;
+  final VoidCallback onNext;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        FilledButton.icon(
+          onPressed: onNext,
+          icon: const Icon(Icons.casino),
+          label: Text(mission == null ? '미션 시작' : '다음 미션'),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'TIP: 과음은 금물! 물도 같이 마셔요 💧',
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: Colors.black54,
+            fontWeight: FontWeight.w600,
           ),
+        ),
       ],
     );
   }
