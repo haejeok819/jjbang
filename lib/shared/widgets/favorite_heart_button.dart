@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jjbang/core/theme/colors.dart';
 
 class FavoriteHeartButton extends StatelessWidget {
   const FavoriteHeartButton({
@@ -32,7 +31,7 @@ class FavoriteHeartButton extends StatelessWidget {
         onPressed: onPressed,
         icon: Icon(
           isFav ? Icons.favorite : Icons.favorite_border,
-          color: isFav ? AppColors.favoriteSelected : AppColors.favoriteDefault,
+          color: isFav ? const Color(0xFFFF6B6B) : null,
         ),
       ),
     );

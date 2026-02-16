@@ -17,7 +17,6 @@ import 'package:jjbang/features/combos/application/combos_providers.dart' as app
 import 'package:jjbang/shared/widgets/favorite_heart_button.dart';
 import 'package:jjbang/shared/widgets/pressable.dart';
 import 'package:jjbang/shared/widgets/tag_chip.dart';
-import 'package:jjbang/core/theme/colors.dart';
 
 class AppScaffold extends ConsumerStatefulWidget {
   const AppScaffold({super.key});
@@ -258,9 +257,7 @@ class _ComboCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(radius),
           child: Material(
-            color: AppColors.cardBackground,
-            elevation: 6,
-            shadowColor: AppColors.cardShadow,
+            color: Theme.of(context).colorScheme.surface,
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -288,21 +285,15 @@ class _ComboCard extends StatelessWidget {
                                   style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.textPrimary,
+                                    fontFamily: 'NanumSquare',
                                   ),
                                 ),
                               ),
                               if (combo.popularity >= 95) ...[
                                 const Badge(
-                                  label: Text(
-                                    'HOT',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                  backgroundColor: AppColors.hotBadgeBackground,
-                                  textColor: AppColors.hotBadgeText,
+                                  label: Text('HOT'),
+                                  backgroundColor: Color(0xFFFF5C5C),
+                                  textColor: Colors.white,
                                 ),
                                 const SizedBox(width: 8),
                               ],
@@ -348,6 +339,9 @@ class _ComboCard extends StatelessWidget {
       ),
     );
   }
+
+
+
 
 
   Color _alcoholBarColor(String alcoholLevel) {
