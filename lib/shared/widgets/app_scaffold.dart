@@ -265,7 +265,7 @@ class _ComboCard extends StatelessWidget {
                   SizedBox(
                     width: 4,
                     child: ColoredBox(
-                      color: _alcoholBarColor(combo.alcoholLevel),
+                      color: _baseBarColor(combo.base.type),
                     ),
                   ),
                   Expanded(
@@ -344,14 +344,24 @@ class _ComboCard extends StatelessWidget {
 
 
 
-  Color _alcoholBarColor(String alcoholLevel) {
-    switch (alcoholLevel) {
-      case '낮음':
-        return const Color(0xFF3BA7FF);
-      case '중간':
-        return const Color(0xFFFFB547);
-      case '높음':
-        return const Color(0xFFFF5C5C);
+  Color _baseBarColor(String baseType) {
+    switch (baseType) {
+      case '소주':
+        return const Color(0xFF1B5E20);
+      case '맥주':
+        return const Color(0xFFFFD54F);
+      case '막걸리':
+        return const Color(0xFF81D4FA);
+      case '고량주':
+        return const Color(0xFFE53935);
+      case '위스키':
+        return const Color(0xFF8E24AA);
+      case '사이다':
+        return const Color(0xFFA5D6A7);
+      case '콜라':
+        return const Color(0xFF212121);
+      case '토닉':
+        return const Color(0xFF1E88E5);
       default:
         return const Color(0xFFB8C0CC);
     }
