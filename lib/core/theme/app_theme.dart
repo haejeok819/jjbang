@@ -5,6 +5,7 @@ class AppTheme {
   static ThemeData light() {
     final base = ThemeData(
       useMaterial3: true,
+      fontFamily: 'NanumSquareNormal',
       brightness: Brightness.light,
       colorSchemeSeed: AppColors.accent,
       scaffoldBackgroundColor: AppColors.background,
