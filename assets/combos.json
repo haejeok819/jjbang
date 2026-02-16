@@ -4,12 +4,12 @@
     "name": "황금비율 소맥",
     "base": {
       "type": "소주",
-      "ratio": "7"
+      "ratio": "3"
     },
     "mixers": [
       {
-        "name": "소주",
-        "ratio": "3"
+        "name": "맥주",
+        "ratio": "7"
       }
     ],
     "taste": [
@@ -685,12 +685,12 @@
     "name": "강민경 꿀주",
     "base": {
       "type": "소주",
-      "ratio": "1"
+      "ratio": "9"
     },
     "mixers": [
       {
-        "name": "소주",
-        "ratio": "9"
+        "name": "맥주",
+        "ratio": "1"
       }
     ],
     "taste": [
@@ -772,12 +772,12 @@
     "name": "테슬라 소맥",
     "base": {
       "type": "소주",
-      "ratio": "8"
+      "ratio": "2"
     },
     "mixers": [
       {
-        "name": "소주",
-        "ratio": "2"
+        "name": "맥주",
+        "ratio": "8"
       }
     ],
     "taste": [

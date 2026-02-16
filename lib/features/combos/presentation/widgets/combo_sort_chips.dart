@@ -9,20 +9,23 @@ class ComboSortChips extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final current = ref.watch(comboSortProvider);
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (final s in ComboSort.values) ...[
-            ChoiceChip(
-              label: Text(s.label),
-              selected: s == current,
-              onSelected: (_) =>
-              ref.read(comboSortProvider.notifier).state = s,
-            ),
-            const SizedBox(width: 8),
+    return SizedBox(
+      height: 46,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        child: Row(
+          children: [
+            for (final s in ComboSort.values) ...[
+              ChoiceChip(
+                label: Text(s.label),
+                selected: s == current,
+                onSelected: (_) => ref.read(comboSortProvider.notifier).state = s,
+              ),
+              const SizedBox(width: 8),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

@@ -20,27 +20,31 @@ class ComboFilterChips extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selected = ref.watch(selectedBasesProvider);
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          for (final base in bases) ...[
-            FilterChip(
-              label: Text(base),
-              selected: selected.contains(base),
-              onSelected: (_) {
-                final next = {...selected};
-                if (next.contains(base)) {
-                  next.remove(base);
-                } else {
-                  next.add(base);
-                }
-                ref.read(selectedBasesProvider.notifier).state = next;
-              },
-            ),
-            const SizedBox(width: 8),
+    return SizedBox(
+      height: 46,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        physics: const BouncingScrollPhysics(),
+        child: Row(
+          children: [
+            for (final base in bases) ...[
+              FilterChip(
+                label: Text(base),
+                selected: selected.contains(base),
+                onSelected: (_) {
+                  final next = {...selected};
+                  if (next.contains(base)) {
+                    next.remove(base);
+                  } else {
+                    next.add(base);
+                  }
+                  ref.read(selectedBasesProvider.notifier).state = next;
+                },
+              ),
+              const SizedBox(width: 8),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
