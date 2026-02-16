@@ -71,10 +71,6 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          titles[_index],
-          style: const TextStyle(fontFamily: 'NanumSquare', fontWeight: FontWeight.w800),
-        ),
         centerTitle: true,
         toolbarHeight: 100, // 높이 늘려야 여유 생김
         title: Column(
