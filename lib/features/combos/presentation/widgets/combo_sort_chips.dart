@@ -11,16 +11,12 @@ class ComboSortChips extends ConsumerWidget {
     final current = ref.watch(comboSortProvider);
 
     return SizedBox(
-      height: 48,
+      height: 46,
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        physics: const ClampingScrollPhysics(),
-        primary: false,
-        dragStartBehavior: DragStartBehavior.down,
+        physics: const BouncingScrollPhysics(),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            const SizedBox(width: 16),
             for (final s in ComboSort.values) ...[
               ChoiceChip(
                 label: Text(s.label),
@@ -29,7 +25,6 @@ class ComboSortChips extends ConsumerWidget {
               ),
               const SizedBox(width: 8),
             ],
-            const SizedBox(width: 16),
           ],
         ),
       ),

@@ -142,146 +142,54 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
       alignment: Alignment.center,
       children: [
         SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: Text(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
                   '랜덤 술게임',
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
-                child: Text(
+                const SizedBox(height: 8),
+                Text(
                   '분위기를 고르고, 아래에서 오늘의 미션을 시작해보세요.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: Colors.black54,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              SizedBox(
-                height: 44,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  physics: const ClampingScrollPhysics(),
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 16),
-                      for (final mood in GameMood.values) ...[
-                        ChoiceChip(
-                          label: Text(mood.label),
-                          selected: _selectedMood == mood,
-                          onSelected: (_) => _changeMood(mood),
-                        ),
-                        const SizedBox(width: 8),
+                const SizedBox(height: 12),
+                SizedBox(
+                  height: 44,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const BouncingScrollPhysics(),
+                    child: Row(
+                      children: [
+                        for (final mood in GameMood.values) ...[
+                          ChoiceChip(
+                            label: Text(mood.label),
+                            selected: _selectedMood == mood,
+                            onSelected: (_) => _changeMood(mood),
+                          ),
+                          const SizedBox(width: 8),
+                        ],
                       ],
-                      const SizedBox(width: 16),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Expanded(
-                flex: 7,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: _MissionPanelLarge(
-                    mission: _currentMission,
-                    round: _round,
-                    remaining: _deck.length,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: _StartButtonSection(
-                  mission: _currentMission,
-                  onNext: _pickMission,
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (_burstSeed > 0)
-          IgnorePointer(
-            child: _MissionBurst(seed: _burstSeed),
-          ),
-      ],
-    );
-  }
-}
-
-class _MissionPanelLarge extends StatelessWidget {
-  const _MissionPanelLarge({
-    required this.mission,
-    required this.round,
-    required this.remaining,
-  });
-
-  final String? mission;
-  final int round;
-  final int remaining;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Card(
-      elevation: 0,
-      color: theme.colorScheme.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '오늘의 미션',
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: Center(
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 240),
-                    switchInCurve: Curves.easeOut,
-                    switchOutCurve: Curves.easeIn,
-                    child: Text(
-                      mission ?? '아래 버튼을 눌러 미션을 시작해보세요 🍻',
-                      key: ValueKey(mission ?? 'empty'),
-                      textAlign: TextAlign.center,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                        height: 1.3,
-                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                '라운드 $round · 남은 미션 ${remaining}개',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w600,
+                const Spacer(),
+                _MissionBottomPanel(
+                  mission: _currentMission,
+                  round: _round,
+                  remaining: _deck.length,
+                  onNext: _pickMission,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -305,6 +213,90 @@ class _StartButtonSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        FilledButton.icon(
+          onPressed: onNext,
+          icon: const Icon(Icons.casino),
+          label: Text(mission == null ? '미션 시작' : '다음 미션'),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          'TIP: 과음은 금물! 물도 같이 마셔요 💧',
+          textAlign: TextAlign.center,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: Colors.black54,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _MissionBottomPanel extends StatelessWidget {
+  const _MissionBottomPanel({
+    required this.mission,
+    required this.round,
+    required this.remaining,
+    required this.onNext,
+  });
+
+  final String? mission;
+  final int round;
+  final int remaining;
+  final VoidCallback onNext;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Card(
+          elevation: 0,
+          color: theme.colorScheme.surface,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '오늘의 미션',
+                  style: theme.textTheme.labelLarge?.copyWith(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 240),
+                  switchInCurve: Curves.easeOut,
+                  switchOutCurve: Curves.easeIn,
+                  child: Text(
+                    mission ?? '아래 버튼을 눌러 미션을 시작해보세요 🍻',
+                    key: ValueKey(mission ?? 'empty'),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      height: 1.35,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  '라운드 $round · 남은 미션 ${remaining}개',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
         FilledButton.icon(
           onPressed: onNext,
           icon: const Icon(Icons.casino),
