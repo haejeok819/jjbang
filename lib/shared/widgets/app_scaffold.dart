@@ -71,8 +71,13 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(titles[_index]),
         centerTitle: true,
+        toolbarHeight: 68,
+        title: Image.asset(
+          'assets/logo.png',
+          height: 60,
+          fit: BoxFit.contain,
+        ),
         actions: [
           if (_index == _tabCombos)
             Consumer(
@@ -94,6 +99,7 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
             ),
         ],
       ),
+
       body: _index == _tabCombos
           ? Column(
         children: const [
