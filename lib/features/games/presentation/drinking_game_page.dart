@@ -279,9 +279,9 @@ class _MissionPanelLarge extends StatelessWidget {
                       key: ValueKey(mission ?? 'empty'),
                       textAlign: TextAlign.center,
                       style: theme.textTheme.headlineSmall?.copyWith(
-                        fontSize: 28,
+                        fontSize: 24,
                         fontWeight: FontWeight.w800,
-                        height: 1.3,
+                        height: 1.7,
                       ),
                     ),
                   ),
