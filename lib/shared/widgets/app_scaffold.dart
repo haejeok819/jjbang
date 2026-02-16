@@ -9,10 +9,8 @@ import 'package:jjbang/features/combos/domain/combo.dart';
 import 'package:jjbang/features/combos/presentation/combo_detail_dialog.dart';
 import 'package:jjbang/features/combos/presentation/widgets/combo_sort_chips.dart';
 import 'package:jjbang/features/combos/presentation/widgets/combo_filter_chips.dart';
-import 'package:jjbang/features/combos/presentation/widgets/combos_appbar_search.dart';
 import 'package:jjbang/features/combos/application/combo_filter_state.dart';
 import 'package:jjbang/features/combos/application/filtered_combo_provider.dart';
-import 'package:jjbang/features/combos/application/combos_providers.dart' as app;
 
 import 'package:jjbang/shared/widgets/favorite_heart_button.dart';
 import 'package:jjbang/shared/widgets/pressable.dart';
@@ -65,7 +63,6 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
   @override
   Widget build(BuildContext context) {
     final pages = <Widget>[
-      const _CombosScreen(),
       const _ComingSoonScreen(title: '칵테일 레시피'),
       const DrinkingGamePage(),
       const _ComingSoonScreen(title: '밸런스 게임'),
@@ -74,51 +71,18 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
 
 
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        toolbarHeight: 130, // 통일
-        title: Image.asset(
-          'assets/logo.png',
-          height: 130,
-          fit: BoxFit.contain,
-        ),
-        actions: [
-          if (_index == _tabCombos)
-            Consumer(
-              builder: (context, ref, _) {
-                return IconButton(
-                  icon: const Icon(Icons.search),
-                  onPressed: () {
-                    final cur = ref.read(app.combosSearchOpenProvider);
-
-                    if (cur) {
-                      FocusManager.instance.primaryFocus?.unfocus();
-                      ref.read(comboFilterProvider.notifier).setQuery('');
-                    }
-
-                    ref.read(app.combosSearchOpenProvider.notifier).state = !cur;
-                  },
-                );
-              },
+      appBar: _index == _tabCombos
+          ? null
+          : AppBar(
+              centerTitle: true,
+              toolbarHeight: 76,
+              title: Image.asset(
+                'assets/logo.png',
+                height: 64,
+                fit: BoxFit.contain,
+              ),
             ),
-        ],
-      ),
-      body: _index == _tabCombos
-          ? Column(
-              children: const [
-                CombosAppbarSearch(),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
-                  child: ComboSortChips(),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
-                  child: ComboFilterChips(),
-                ),
-                Expanded(child: _CombosScreen()),
-              ],
-            )
-          : pages[_index],
+      body: _index == _tabCombos ? const _CombosScreen() : pages[_index - 1],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
         onDestinationSelected: _onTabSelected,
@@ -154,13 +118,46 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
   }
 }
 
-class _CombosScreen extends ConsumerWidget {
+class _CombosScreen extends ConsumerStatefulWidget {
   const _CombosScreen();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_CombosScreen> createState() => _CombosScreenState();
+}
+
+class _CombosScreenState extends ConsumerState<_CombosScreen> {
+  late final TextEditingController _searchController;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final asyncCombos = ref.watch(filteredComboProvider);
     final favIds = ref.watch(favoritesIdsProvider);
+    final query = ref.watch(comboFilterProvider.select((s) => s.query));
+
+    if (_searchController.text != query) {
+      _searchController.value = TextEditingValue(
+        text: query,
+        selection: TextSelection.collapsed(offset: query.length),
+      );
+    }
+
+    void clearQuery() {
+      _searchController.clear();
+      ref.read(comboFilterProvider.notifier).setQuery('');
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
 
     void openCombo(String id) {
       showGeneralDialog(
@@ -204,31 +201,120 @@ class _CombosScreen extends ConsumerWidget {
       );
     }
 
-    return asyncCombos.when(
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('에러: $e')),
-      data: (combos) {
-        return ListView.separated(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-          itemCount: combos.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 12),
-          itemBuilder: (context, i) {
-            final c = combos[i];
-            final isFav = favIds.contains(c.id);
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          pinned: true,
+          automaticallyImplyLeading: false,
+          toolbarHeight: 130,
+          elevation: 0,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          titleSpacing: 0,
+          title: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 6, 16, 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: Image.asset(
+                    'assets/logo.png',
+                    height: 64,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                SizedBox(
+                  height: 46,
+                  child: SearchBar(
+                    controller: _searchController,
+                    leading: const Icon(Icons.search),
+                    hintText: '조합 이름 또는 베이스 술/음료를 검색해보세요 !',
+                    onChanged: (value) =>
+                        ref.read(comboFilterProvider.notifier).setQuery(value),
+                    onSubmitted: (_) =>
+                        FocusManager.instance.primaryFocus?.unfocus(),
+                    trailing: [
+                      if (query.isNotEmpty)
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          tooltip: '검색어 지우기',
+                          onPressed: clearQuery,
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Divider(height: 1),
+          ),
+        ),
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: ComboSortChips(),
+          ),
+        ),
+        const SliverToBoxAdapter(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+            child: ComboFilterChips(),
+          ),
+        ),
+        ...asyncCombos.when(
+          loading: () => [
+            const SliverFillRemaining(
+              child: Center(child: CircularProgressIndicator()),
+            ),
+          ],
+          error: (e, _) => [
+            SliverFillRemaining(
+              child: Center(child: Text('에러: $e')),
+            ),
+          ],
+          data: (combos) {
+            if (combos.isEmpty) {
+              return const [
+                SliverFillRemaining(
+                  child: Center(child: Text('조건에 맞는 술 조합이 없어요')),
+                ),
+              ];
+            }
 
-            return ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 112),
-              child: _ComboCard(
-                combo: c,
-                isFav: isFav,
-                onTap: () => openCombo(c.id),
-                onToggleFavorite: () =>
-                    ref.read(favoritesNotifierProvider.notifier).toggle(c.id),
+            return [
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, i) {
+                      final c = combos[i];
+                      final isFav = favIds.contains(c.id);
+
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(minHeight: 112),
+                          child: _ComboCard(
+                            combo: c,
+                            isFav: isFav,
+                            onTap: () => openCombo(c.id),
+                            onToggleFavorite: () =>
+                                ref.read(favoritesNotifierProvider.notifier).toggle(c.id),
+                          ),
+                        ),
+                      );
+                    },
+                    childCount: combos.length,
+                  ),
+                ),
               ),
-            );
+            ];
           },
-        );
-      },
+        ),
+      ],
     );
   }
 }
