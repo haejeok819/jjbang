@@ -7,7 +7,8 @@ import 'debounced_query_provider.dart';
 enum ComboSort {
   added('최근순'),
   popularity('인기순'),
-  alcohol('도수순'),
+  alcohol('도수 높은순'),
+  alcoholLow('도수 낮은순'),
   difficulty('난이도순');
 
   final String label;
@@ -86,6 +87,8 @@ final filteredComboProvider = FutureProvider.autoDispose<List<Combo>>((ref) asyn
         return b.popularity.compareTo(a.popularity);
       case ComboSort.alcohol:
         return alcoholRank(b.alcoholLevel).compareTo(alcoholRank(a.alcoholLevel));
+      case ComboSort.alcoholLow:
+        return alcoholRank(a.alcoholLevel).compareTo(alcoholRank(b.alcoholLevel));
       case ComboSort.difficulty:
         return difficultyRank(b.difficulty).compareTo(difficultyRank(a.difficulty));
     }

@@ -7,6 +7,7 @@ import 'package:jjbang/features/games/presentation/drinking_game_page.dart';
 
 import 'package:jjbang/features/combos/presentation/combo_detail_dialog.dart';
 import 'package:jjbang/features/combos/presentation/widgets/combos_appbar_search.dart';
+import 'package:jjbang/features/combos/presentation/widgets/combo_sort_chips.dart';
 import 'package:jjbang/features/combos/application/filtered_combo_provider.dart';
 import 'package:jjbang/features/combos/application/combo_filter_state.dart';
 import 'package:jjbang/features/combos/application/combos_providers.dart' as app;
@@ -116,11 +117,15 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
 
       body: _index == _tabCombos
           ? Column(
-        children: const [
-          CombosAppbarSearch(),
-          Expanded(child: _CombosScreen()),
-        ],
-      )
+              children: const [
+                CombosAppbarSearch(),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
+                  child: ComboSortChips(),
+                ),
+                Expanded(child: _CombosScreen()),
+              ],
+            )
           : pages[_index],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
