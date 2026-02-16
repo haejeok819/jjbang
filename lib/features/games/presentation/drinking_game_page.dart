@@ -1,14 +1,17 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 enum GameMood {
-  light('가볍게'),
-  talk('토크'),
-  action('액션');
+  light('가볍게', 'light'),
+  talk('토크', 'talk'),
+  action('액션', 'action');
 
-  const GameMood(this.label);
+  const GameMood(this.label, this.key);
   final String label;
+  final String key;
 }
 
 class DrinkingGamePage extends StatefulWidget {
@@ -20,43 +23,66 @@ class DrinkingGamePage extends StatefulWidget {
 
 class _DrinkingGamePageState extends State<DrinkingGamePage> {
   final _random = Random();
-  final Map<GameMood, List<String>> _missionsByMood = {
-    GameMood.light: const [
-      '모든 사람과 건배하기',
-      '오늘의 안주 원픽 말하기',
-      '옆 사람 칭찬 1개 하기',
-      '물 한 모금 마시기(수분 보충)',
-      '왼쪽 사람과 하이파이브 하기',
-    ],
-    GameMood.talk: const [
-      '최근 가장 웃겼던 일 1개 말하기',
-      '내 휴대폰 배경화면 이유 설명하기',
-      '첫인상 vs 지금 인상 한 명 말하기',
-      '오늘 기분을 한 단어로 표현하기',
-      'TMI 하나 공유하기',
-    ],
-    GameMood.action: const [
-      '가위바위보, 진 사람 한 모금',
-      '아무 노래 3초 부르기',
-      '끝말잇기 3턴 하기',
-      '손가락 게임: 마지막 손 든 사람 한 모금',
-      '눈 감고 랜덤으로 사람 한 명 지목해서 건배',
-    ],
-  };
 
+  Map<GameMood, List<String>> _missionsByMood = const {};
   GameMood _selectedMood = GameMood.light;
   List<String> _deck = const [];
   String? _currentMission;
   int _round = 0;
 
+  bool _loading = true;
+  String? _loadError;
+
   @override
   void initState() {
     super.initState();
-    _resetDeck();
+    _loadMissions();
+  }
+
+  Future<void> _loadMissions() async {
+    try {
+      final raw = await rootBundle.loadString('assets/games.json');
+      final jsonMap = jsonDecode(raw) as Map<String, dynamic>;
+
+      final loaded = <GameMood, List<String>>{};
+      for (final mood in GameMood.values) {
+        final value = jsonMap[mood.key];
+        if (value is! List) {
+          throw FormatException('Missing or invalid list for ${mood.key}');
+        }
+        final missions = value.map((e) => e.toString()).toList(growable: false);
+        if (missions.isEmpty) {
+          throw FormatException('Empty missions for ${mood.key}');
+        }
+        loaded[mood] = missions;
+      }
+
+      if (!mounted) {
+        return;
+      }
+
+      setState(() {
+        _missionsByMood = loaded;
+        _loading = false;
+        _loadError = null;
+        _round = 0;
+        _currentMission = null;
+        _resetDeck();
+      });
+    } catch (e) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {
+        _loading = false;
+        _loadError = '미션 데이터를 불러오지 못했어요. ($e)';
+      });
+    }
   }
 
   void _resetDeck() {
-    final original = List<String>.from(_missionsByMood[_selectedMood]!);
+    final missions = _missionsByMood[_selectedMood] ?? const <String>[];
+    final original = List<String>.from(missions);
     original.shuffle(_random);
     _deck = original;
   }
@@ -64,6 +90,10 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
   void _pickMission() {
     if (_deck.isEmpty) {
       _resetDeck();
+    }
+
+    if (_deck.isEmpty) {
+      return;
     }
 
     setState(() {
@@ -88,6 +118,29 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+
+    if (_loading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (_loadError != null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(_loadError!, textAlign: TextAlign.center),
+              const SizedBox(height: 12),
+              FilledButton(
+                onPressed: _loadMissions,
+                child: const Text('다시 시도'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.all(20),
