@@ -5,14 +5,17 @@ import 'package:jjbang/features/favorites/presentation/favorites_page.dart';
 import 'package:jjbang/features/favorites/state/favorites_notifier.dart';
 import 'package:jjbang/features/games/presentation/drinking_game_page.dart';
 
+import 'package:jjbang/features/combos/domain/combo.dart';
 import 'package:jjbang/features/combos/presentation/combo_detail_dialog.dart';
-import 'package:jjbang/features/combos/presentation/widgets/combos_appbar_search.dart';
 import 'package:jjbang/features/combos/presentation/widgets/combo_sort_chips.dart';
-import 'package:jjbang/features/combos/application/filtered_combo_provider.dart';
+import 'package:jjbang/features/combos/presentation/widgets/combos_appbar_search.dart';
 import 'package:jjbang/features/combos/application/combo_filter_state.dart';
+import 'package:jjbang/features/combos/application/filtered_combo_provider.dart';
 import 'package:jjbang/features/combos/application/combos_providers.dart' as app;
 
+import 'package:jjbang/shared/widgets/favorite_heart_button.dart';
 import 'package:jjbang/shared/widgets/pressable.dart';
+import 'package:jjbang/shared/widgets/tag_chip.dart';
 
 class AppScaffold extends ConsumerStatefulWidget {
   const AppScaffold({super.key});
@@ -73,26 +76,32 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        toolbarHeight: 100, // 높이 늘려야 여유 생김
-        title: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              'assets/logo.png',
-              height: 60,
-              fit: BoxFit.contain,
-            ),
-            const SizedBox(height: 6), // 한 줄 띄우기
-            Text(
-              titles[_index],
-              style: const TextStyle(
-                fontFamily: 'NanumSquare',
-                fontWeight: FontWeight.w800,
-                fontSize: 30,
+        toolbarHeight: _index == _tabCombos ? 72 : 100,
+        title: _index == _tabCombos
+            ? Image.asset(
+                'assets/logo.png',
+                height: 44,
+                fit: BoxFit.contain,
+              )
+            : Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/logo.png',
+                    height: 60,
+                    fit: BoxFit.contain,
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    titles[_index],
+                    style: const TextStyle(
+                      fontFamily: 'NanumSquare',
+                      fontWeight: FontWeight.w800,
+                      fontSize: 30,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
         actions: [
           if (_index == _tabCombos)
             Consumer(
@@ -114,7 +123,6 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
             ),
         ],
       ),
-
       body: _index == _tabCombos
           ? Column(
               children: const [
@@ -237,56 +245,13 @@ class _CombosScreen extends ConsumerWidget {
                   ),
                 );
               },
-              child: Pressable(
+              child: _ComboCard(
+                combo: c,
+                isFav: isFav,
                 onTap: () => openCombo(c.id),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(14),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                c.name,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  fontFamily: 'NanumSquare',
-                                ),
-                              ),
-                            ),
-                            IconButton(
-                              icon: Icon(
-                                isFav ? Icons.favorite : Icons.favorite_border,
-                              ),
-                              onPressed: () => ref
-                                  .read(favoritesNotifierProvider.notifier)
-                                  .toggle(c.id),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: [
-                            _Pill(text: c.base.type),
-                            _Pill(text: '도수 ${c.alcoholLevel}'),
-                            _Pill(text: '난이도 ${c.difficulty}'),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: c.taste.map((t) => _Tag(text: t)).toList(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                onToggleFavorite: () => ref
+                    .read(favoritesNotifierProvider.notifier)
+                    .toggle(c.id),
               ),
             );
           },
@@ -296,49 +261,128 @@ class _CombosScreen extends ConsumerWidget {
   }
 }
 
-class _Pill extends StatelessWidget {
-  final String text;
-  const _Pill({required this.text});
+class _ComboCard extends StatelessWidget {
+  const _ComboCard({
+    required this.combo,
+    required this.isFav,
+    required this.onTap,
+    required this.onToggleFavorite,
+  });
+
+  final Combo combo;
+  final bool isFav;
+  final VoidCallback onTap;
+  final VoidCallback onToggleFavorite;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+    const radius = 24.0;
+
+    return Pressable(
+      onTap: onTap,
+      child: Stack(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(radius),
+            child: Material(
+              color: Theme.of(context).colorScheme.surface,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                    width: 4,
+                    color: _alcoholBarColor(combo.alcoholLevel),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  combo.name,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
+                                    fontFamily: 'NanumSquare',
+                                  ),
+                                ),
+                              ),
+                              FavoriteHeartButton(
+                                isFav: isFav,
+                                onPressed: onToggleFavorite,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              TagChip(label: combo.base.type, type: TagType.base),
+                              TagChip(
+                                label: '도수 ${combo.alcoholLevel}',
+                                type: TagType.alcohol,
+                              ),
+                              TagChip(
+                                label: '난이도 ${combo.difficulty}',
+                                type: TagType.difficulty,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: combo.taste
+                                .map((t) => TagChip(label: t, type: TagType.taste))
+                                .toList(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (combo.popularity >= 95)
+            Positioned(
+              top: 10,
+              right: 10,
+              child: Badge(
+                label: const Text('HOT'),
+                backgroundColor: const Color(0xFFFF5C5C),
+                textColor: Colors.white,
+                child: const SizedBox(width: 6, height: 6),
+              ),
+            ),
+        ],
       ),
     );
   }
-}
 
-class _Tag extends StatelessWidget {
-  final String text;
-  const _Tag({required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.teal.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
-      ),
-    );
+  Color _alcoholBarColor(String alcoholLevel) {
+    switch (alcoholLevel) {
+      case '낮음':
+        return const Color(0xFF3BA7FF);
+      case '중간':
+        return const Color(0xFFFFB547);
+      case '높음':
+        return const Color(0xFFFF5C5C);
+      default:
+        return const Color(0xFFB8C0CC);
+    }
   }
 }
 
 class _ComingSoonScreen extends StatelessWidget {
-  final String title;
   const _ComingSoonScreen({required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {

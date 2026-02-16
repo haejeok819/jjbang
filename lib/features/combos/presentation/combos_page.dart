@@ -21,7 +21,12 @@ class CombosPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('주정뱅이'),
+        centerTitle: true,
+        title: Image.asset(
+          'assets/logo.png',
+          height: 44,
+          fit: BoxFit.contain,
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.search),

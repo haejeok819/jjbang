@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:jjbang/shared/widgets/favorite_heart_button.dart';
 import 'package:jjbang/shared/widgets/pressable.dart';
+import 'package:jjbang/shared/widgets/tag_chip.dart';
 
 import '../../combos/presentation/combo_detail_dialog.dart';
 import '../state/favorites_notifier.dart';
@@ -81,6 +83,9 @@ class FavoritesPage extends ConsumerWidget {
                     return Pressable(
                       onTap: () => openCombo(c.id),
                       child: Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(24),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.all(14),
                           child: Column(
@@ -98,11 +103,11 @@ class FavoritesPage extends ConsumerWidget {
                                       ),
                                     ),
                                   ),
-                                  IconButton(
+                                  FavoriteHeartButton(
+                                    isFav: true,
                                     onPressed: () => ref
                                         .read(favoritesNotifierProvider.notifier)
                                         .toggle(c.id),
-                                    icon: const Icon(Icons.favorite),
                                   ),
                                 ],
                               ),
@@ -111,16 +116,24 @@ class FavoritesPage extends ConsumerWidget {
                                 spacing: 8,
                                 runSpacing: 8,
                                 children: [
-                                  _Pill(text: c.base.type),
-                                  _Pill(text: '도수 ${c.alcoholLevel}'),
-                                  _Pill(text: '난이도 ${c.difficulty}'),
+                                  TagChip(label: c.base.type, type: TagType.base),
+                                  TagChip(
+                                    label: '도수 ${c.alcoholLevel}',
+                                    type: TagType.alcohol,
+                                  ),
+                                  TagChip(
+                                    label: '난이도 ${c.difficulty}',
+                                    type: TagType.difficulty,
+                                  ),
                                 ],
                               ),
                               const SizedBox(height: 10),
                               Wrap(
                                 spacing: 8,
                                 runSpacing: 8,
-                                children: c.taste.map((t) => _Tag(text: t)).toList(),
+                                children: c.taste
+                                    .map((t) => TagChip(label: t, type: TagType.taste))
+                                    .toList(),
                               ),
                             ],
                           ),
@@ -133,51 +146,6 @@ class FavoritesPage extends ConsumerWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _Pill extends StatelessWidget {
-  const _Pill({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-    );
-  }
-}
-
-class _Tag extends StatelessWidget {
-  const _Tag({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: Colors.teal.withOpacity(0.12),
-        borderRadius: BorderRadius.circular(999),
-      ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
       ),
     );
   }

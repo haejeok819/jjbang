@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../application/combos_providers.dart';
 import '../../favorites/state/favorites_notifier.dart';
 import 'widgets/ratio_bar.dart';
+import 'package:jjbang/shared/widgets/favorite_heart_button.dart';
+import 'package:jjbang/shared/widgets/tag_chip.dart';
 
 class ComboDetailDialog extends ConsumerWidget {
   final String comboId;
@@ -58,8 +60,8 @@ class ComboDetailDialog extends ConsumerWidget {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   actions: [
-                    IconButton(
-                      icon: Icon(isFav ? Icons.favorite : Icons.favorite_border),
+                    FavoriteHeartButton(
+                      isFav: isFav,
                       onPressed: () => ref
                           .read(favoritesNotifierProvider.notifier)
                           .toggle(comboId),
@@ -87,7 +89,9 @@ class ComboDetailDialog extends ConsumerWidget {
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,
-                          children: combo.taste.map((t) => Chip(label: Text(t))).toList(),
+                          children: combo.taste
+                              .map((t) => TagChip(label: t, type: TagType.taste))
+                              .toList(),
                         ),
                         const SizedBox(height: 16),
                         Text('비율', style: Theme.of(context).textTheme.titleMedium),
