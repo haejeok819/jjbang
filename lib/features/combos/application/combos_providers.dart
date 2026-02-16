@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/combo.dart';
 import '../data/combo_repository.dart';
 import '../data/combo_repository_local.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ComboChip {
   soju('소주'),
@@ -18,19 +17,6 @@ enum ComboChip {
   const ComboChip(this.label);
 }
 
-enum ComboSort {
-  popularity('인기'),
-  alcohol('도수'),
-  difficulty('난이도');
-
-  final String label;
-  const ComboSort(this.label);
-}
-
-final comboSortProvider =
-StateProvider.autoDispose<ComboSort>((ref) => ComboSort.popularity);
-
-
 final comboRepositoryProvider = Provider<ComboRepository>((ref) {
   return LocalComboRepository();
 });
@@ -42,9 +28,7 @@ StateProvider.autoDispose<Set<ComboChip>>((ref) => <ComboChip>{});
 
 final combosProvider = FutureProvider<List<Combo>>((ref) async {
   final repo = ref.watch(comboRepositoryProvider);
-  final items = await repo.getCombos();
-  items.sort((a, b) => b.popularity.compareTo(a.popularity));
-  return items;
+  return repo.getCombos();
 });
 
 final filteredCombosProvider = Provider<AsyncValue<List<Combo>>>((ref) {
