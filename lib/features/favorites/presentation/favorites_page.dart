@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:jjbang/shared/widgets/pressable.dart';
 
-import '../../combos/presentation/combo_detail_page.dart';
+import '../../combos/presentation/combo_detail_dialog.dart';
 import '../state/favorites_notifier.dart';
 import '../state/favorites_sort_provider.dart';
 import 'widgets/favorites_sort_chips.dart';
@@ -14,6 +14,48 @@ class FavoritesPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final async = ref.watch(sortedFavoritesProvider);
+
+    void openCombo(String id) {
+      showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel: 'combo_detail',
+        barrierColor: Colors.black.withOpacity(0.45),
+        transitionDuration: const Duration(milliseconds: 300),
+        pageBuilder: (context, anim1, anim2) {
+          return Center(
+            child: Dialog(
+              insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: ComboDetailDialog(comboId: id),
+            ),
+          );
+        },
+        transitionBuilder: (context, anim, _, child) {
+          final curved = CurvedAnimation(
+            parent: anim,
+            curve: Curves.easeOutCubic,
+            reverseCurve: Curves.easeInCubic,
+          );
+
+          final fade = Tween<double>(begin: 0.0, end: 1.0).animate(curved);
+          final scale = Tween<double>(begin: 0.92, end: 1.0).animate(curved);
+          final slide = Tween<double>(begin: 28.0, end: 0.0).animate(curved);
+
+          return FadeTransition(
+            opacity: fade,
+            child: Transform.translate(
+              offset: Offset(0, slide.value),
+              child: Transform.scale(
+                scale: scale.value,
+                child: child,
+              ),
+            ),
+          );
+        },
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -37,14 +79,7 @@ class FavoritesPage extends ConsumerWidget {
                     final c = items[i];
 
                     return Pressable(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ComboDetailPage(comboId: c.id),
-                          ),
-                        );
-                      },
+                      onTap: () => openCombo(c.id),
                       child: Card(
                         child: Padding(
                           padding: const EdgeInsets.all(14),
