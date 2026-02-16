@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jjbang/core/theme/colors.dart';
 
 enum TagType {
   base,
@@ -32,8 +33,8 @@ class TagChip extends StatelessWidget {
       child: Text(
         label,
         style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w700,
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
           color: style.foreground,
         ),
       ),
@@ -43,34 +44,14 @@ class TagChip extends StatelessWidget {
   _TagColors _styleFor(TagType type) {
     switch (type) {
       case TagType.base:
-        return const _TagColors(
-          background: Color(0xFFF2F4F8),
-          border: Color(0xFFDDE3EA),
-          foreground: Color(0xFF344054),
-        );
       case TagType.alcohol:
-        return const _TagColors(
-          background: Color(0xFFFFF1F3),
-          border: Color(0xFFFFD4DB),
-          foreground: Color(0xFFB42318),
-        );
       case TagType.difficulty:
-        return const _TagColors(
-          background: Color(0xFFEEF4FF),
-          border: Color(0xFFD3E0FF),
-          foreground: Color(0xFF1849A9),
-        );
       case TagType.taste:
-        return const _TagColors(
-          background: Color(0xFFE9FBF5),
-          border: Color(0xFFC9F2E5),
-          foreground: Color(0xFF0F766E),
-        );
       case TagType.extra:
         return const _TagColors(
-          background: Color(0xFFF8F0FF),
-          border: Color(0xFFE7D6FF),
-          foreground: Color(0xFF6941C6),
+          background: AppColors.chipDefault,
+          border: Color(0x00FFFFFF),
+          foreground: AppColors.textPrimary,
         );
     }
   }
