@@ -268,92 +268,104 @@ class _ComboCard extends StatelessWidget {
 
     return Pressable(
       onTap: onTap,
-      child: Stack(
-        fit: StackFit.passthrough,
-        clipBehavior: Clip.none,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(radius),
-            child: Material(
-              color: Theme.of(context).colorScheme.surface,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Container(
-                    width: 4,
-                    color: _alcoholBarColor(combo.alcoholLevel),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  combo.name,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w800,
-                                    fontFamily: 'NanumSquare',
-                                  ),
-                                ),
-                              ),
-                              FavoriteHeartButton(
-                                isFav: isFav,
-                                onPressed: onToggleFavorite,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: [
-                              TagChip(label: combo.base.type, type: TagType.base),
-                              TagChip(
-                                label: '도수 ${combo.alcoholLevel}',
-                                type: TagType.alcohol,
-                              ),
-                              TagChip(
-                                label: '난이도 ${combo.difficulty}',
-                                type: TagType.difficulty,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: combo.taste
-                                .map((t) => TagChip(label: t, type: TagType.taste))
-                                .toList(),
-                          ),
-                        ],
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 112),
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(radius),
+              child: Material(
+                color: Theme.of(context).colorScheme.surface,
+                child: IntrinsicHeight(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                        width: 4,
+                        child: ColoredBox(
+                          color: _alcoholBarColor(combo.alcoholLevel),
+                        ),
                       ),
-                    ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      combo.name,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w800,
+                                        fontFamily: 'NanumSquare',
+                                      ),
+                                    ),
+                                  ),
+                                  FavoriteHeartButton(
+                                    isFav: isFav,
+                                    onPressed: onToggleFavorite,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: [
+                                  TagChip(label: combo.base.type, type: TagType.base),
+                                  TagChip(
+                                    label: '도수 ${combo.alcoholLevel}',
+                                    type: TagType.alcohol,
+                                  ),
+                                  TagChip(
+                                    label: '난이도 ${combo.difficulty}',
+                                    type: TagType.difficulty,
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: combo.taste
+                                    .map((t) => TagChip(label: t, type: TagType.taste))
+                                    .toList(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
-          ),
-          if (combo.popularity >= 95)
-            Positioned(
-              top: 10,
-              right: 10,
-              child: Badge(
-                label: const Text('HOT'),
-                backgroundColor: const Color(0xFFFF5C5C),
-                textColor: Colors.white,
-                child: const SizedBox(width: 20, height: 20),
+            if (combo.popularity >= 95)
+              Positioned(
+                top: 10,
+                right: 10,
+                child: Badge(
+                  label: const Text('HOT'),
+                  backgroundColor: const Color(0xFFFF5C5C),
+                  textColor: Colors.white,
+                ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }
+
+
+
+
 
   Color _alcoholBarColor(String alcoholLevel) {
     switch (alcoholLevel) {
