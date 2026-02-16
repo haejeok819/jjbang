@@ -112,9 +112,7 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
   }
 
   void _changeMood(GameMood mood) {
-    if (_selectedMood == mood) {
-      return;
-    }
+    if (_selectedMood == mood) return;
 
     setState(() {
       _selectedMood = mood;
@@ -295,8 +293,23 @@ class _MissionPanelLarge extends StatelessWidget {
                   color: Colors.black54,
                   fontWeight: FontWeight.w600,
                 ),
-              ),
-            ],
+              ],
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 14),
+
+        // ✅ 버튼 크게
+        SizedBox(
+          height: 60,
+          child: FilledButton.icon(
+            onPressed: onNext,
+            icon: const Icon(Icons.casino, size: 22),
+            label: Text(
+              mission == null ? '게임 시작' : '다음 주제',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+            ),
           ),
         ),
       ),
@@ -354,11 +367,11 @@ class _MissionBurst extends StatelessWidget {
       final angle = random.nextDouble() * pi * 2;
       final distance = burstRadius * (0.45 + random.nextDouble() * 0.9);
       return (
-        dx: cos(angle) * distance,
-        dy: sin(angle) * distance,
-        icon: random.nextBool() ? Icons.star_rounded : Icons.circle,
-        color: Colors.primaries[random.nextInt(Colors.primaries.length)],
-        size: 16.0 + random.nextDouble() * 30,
+      dx: cos(angle) * distance,
+      dy: sin(angle) * distance,
+      icon: random.nextBool() ? Icons.star_rounded : Icons.circle,
+      color: Colors.primaries[random.nextInt(Colors.primaries.length)],
+      size: 16.0 + random.nextDouble() * 30,
       );
     });
 
