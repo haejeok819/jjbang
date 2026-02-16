@@ -25,12 +25,7 @@ class FavoritesPage extends ConsumerWidget {
               error: (e, _) => Center(child: Text('$e')),
               data: (items) {
                 if (items.isEmpty) {
-                  return const Center(
-                    child: Text(
-                      '아직 즐겨찾기가 없어요',
-                      style: TextStyle(fontFamily: 'NanumSquare', fontWeight: FontWeight.w700),
-                    ),
-                  );
+                  return const Center(child: Text('아직 즐겨찾기가 없어요'));
                 }
                 return ListView.separated(
                   itemCount: items.length,
@@ -117,7 +112,6 @@ class _Pill extends StatelessWidget {
         style: const TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          fontFamily: 'NanumSquare',
         ),
       ),
     );

@@ -65,6 +65,9 @@ flutter:
     - family: NanumSquare
       fonts:
         - asset: assets/font.ttf
+    - family: NanumSquareNormal
+      fonts:
+        - asset: assets/font_normal.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

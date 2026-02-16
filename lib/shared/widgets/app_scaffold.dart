@@ -73,9 +73,7 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
       appBar: AppBar(
         title: Text(
           titles[_index],
-          style: _index == _tabFavorites
-              ? const TextStyle(fontFamily: 'NanumSquare', fontWeight: FontWeight.w800)
-              : null,
+          style: const TextStyle(fontFamily: 'NanumSquare', fontWeight: FontWeight.w800),
         ),
         centerTitle: true,
         toolbarHeight: 68,
