@@ -44,7 +44,9 @@ final filteredComboProvider = FutureProvider.autoDispose<List<Combo>>((ref) asyn
 
   bool chipPass(Combo c) {
     if (selectedBases.isEmpty) return true;
-    return selectedBases.contains(c.base.type);
+    if (selectedBases.contains(c.base.type)) return true;
+
+    return c.mixers.any((m) => selectedBases.contains(m.name));
   }
 
   int alcoholRank(String v) {
