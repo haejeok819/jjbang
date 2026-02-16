@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../domain/combo.dart';
 import '../data/combo_repository.dart';
-import '../../favorites/state/favorites_notifier.dart';
+import '../data/combo_repository_local.dart';
 
 enum ComboChip {
   soju('소주'),
@@ -17,6 +17,10 @@ enum ComboChip {
   const ComboChip(this.label);
 }
 
+final comboRepositoryProvider = Provider<ComboRepository>((ref) {
+  return LocalComboRepository();
+});
+
 final searchQueryProvider = StateProvider.autoDispose<String>((ref) => '');
 
 final selectedChipsProvider =
@@ -25,7 +29,7 @@ StateProvider.autoDispose<Set<ComboChip>>((ref) => <ComboChip>{});
 final combosProvider = FutureProvider<List<Combo>>((ref) async {
   final repo = ref.watch(comboRepositoryProvider);
   final items = await repo.getCombos();
-  items.sort((a, b) => b.popularity.compareTo(a.popularity));
+  items.sort((a, b) => (b.popularity ?? 0).compareTo(a.popularity ?? 0));
   return items;
 });
 
@@ -37,21 +41,16 @@ final filteredCombosProvider = Provider<AsyncValue<List<Combo>>>((ref) {
   return combosAsync.whenData((items) {
     bool chipPass(Combo c) {
       if (chips.isEmpty) return true;
-      final tags = c.filterTags.map((e) => e.toLowerCase()).toSet();
+      final hay = '${c.name ?? ''} ${c.base ?? ''}'.toLowerCase();
       for (final ch in chips) {
-        if (tags.contains(ch.label.toLowerCase())) return true;
+        if (hay.contains(ch.label.toLowerCase())) return true;
       }
       return false;
     }
 
     bool queryPass(Combo c) {
       if (q.isEmpty) return true;
-      final hay = [
-        c.name,
-        c.base,
-        ...c.tasteTags,
-        ...c.filterTags,
-      ].join(' ').toLowerCase();
+      final hay = '${c.name ?? ''} ${c.base ?? ''}'.toLowerCase();
       return hay.contains(q);
     }
 
@@ -62,7 +61,7 @@ final filteredCombosProvider = Provider<AsyncValue<List<Combo>>>((ref) {
 final comboByIdProvider = Provider.family<Combo?, String>((ref, id) {
   final combosAsync = ref.watch(combosProvider);
   return combosAsync.maybeWhen(
-    data: (items) => items.where((e) => e.id == id).cast<Combo?>().firstOrNull,
+    data: (items) => items.where((e) => (e.id ?? '') == id).firstOrNull,
     orElse: () => null,
   );
 });

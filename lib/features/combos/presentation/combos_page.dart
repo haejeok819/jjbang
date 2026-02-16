@@ -36,19 +36,24 @@ class CombosPage extends ConsumerWidget {
                     itemCount: items.length,
                     itemBuilder: (context, i) {
                       final c = items[i];
-                      final isFav = fav.contains(c.id);
+                      final id = c.id ?? '';
+                      final isFav = fav.contains(id);
                       return Card(
                         child: ListTile(
-                          title: Text(c.name),
-                          subtitle: Text('${c.base} · ${c.tasteTags.join(" / ")}'),
+                          title: Text(c.name ?? ''),
+                          subtitle: Text(c.base.toString() ?? ''),
                           trailing: IconButton(
                             icon: Icon(isFav ? Icons.favorite : Icons.favorite_border),
-                            onPressed: () => ref.read(favoritesNotifierProvider.notifier).toggle(c.id),
+                            onPressed: id.isEmpty
+                                ? null
+                                : () => ref.read(favoritesNotifierProvider.notifier).toggle(id),
                           ),
-                          onTap: () {
+                          onTap: id.isEmpty
+                              ? null
+                              : () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (_) => ComboDetailPage(comboId: c.id),
+                                builder: (_) => ComboDetailPage(comboId: id),
                               ),
                             );
                           },

@@ -1,5 +1,14 @@
 import '../domain/combo.dart';
 import '../domain/ingredient.dart';
+import 'combo_repository.dart';
+
+class LocalComboRepository implements ComboRepository {
+  @override
+  Future<List<Combo>> getCombos() async {
+    return [];
+  }
+}
+
 
 class ComboRepositoryLocal {
   Future<List<Combo>> load() async {
