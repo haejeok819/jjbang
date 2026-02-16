@@ -6,9 +6,9 @@ import 'package:flutter/services.dart';
 
 enum GameMood {
   random('랜덤', 'random'),
-  light('가볍게', 'light'),
-  talk('토크', 'talk'),
-  action('액션', 'action');
+  light('지목 게임', 'light'),
+  talk('대화 소재', 'talk'),
+  action('행동 게임', 'action');
 
   const GameMood(this.label, this.key);
   final String label;
@@ -159,7 +159,7 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 child: Text(
-                  '랜덤 술게임',
+                  '텐션 올려보자 🔥',
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
@@ -208,16 +208,15 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
                     mission: _currentMission,
                     round: _round,
                     remaining: _deck.length,
+                    onNext: _pickMission, // ✅ 추가
                   ),
                 ),
               ),
               const SizedBox(height: 12),
+
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-                child: _StartButtonSection(
-                  mission: _currentMission,
-                  onNext: _pickMission,
-                ),
+                child: const _StartButtonSection(),
               ),
             ],
           ),
@@ -236,11 +235,13 @@ class _MissionPanelLarge extends StatelessWidget {
     required this.mission,
     required this.round,
     required this.remaining,
+    required this.onNext,
   });
 
   final String? mission;
   final int round;
   final int remaining;
+  final VoidCallback onNext;
 
   @override
   Widget build(BuildContext context) {
@@ -252,23 +253,24 @@ class _MissionPanelLarge extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
       ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                '오늘의 미션',
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: Center(
-                  child: AnimatedSwitcher(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    '오늘의 미션',
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  AnimatedSwitcher(
                     duration: const Duration(milliseconds: 240),
                     switchInCurve: Curves.easeOut,
                     switchOutCurve: Curves.easeIn,
@@ -283,48 +285,45 @@ class _MissionPanelLarge extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  Text(
+                    '라운드 $round · 남은 미션 ${remaining}개',
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.black54,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            SizedBox(
+              height: 60,
+              child: FilledButton.icon(
+                onPressed: onNext,
+                icon: const Icon(Icons.casino, size: 22),
+                label: Text(
+                  mission == null ? '게임 시작' : '다음 주제',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
-              const SizedBox(height: 12),
-              Text(
-                '라운드 $round · 남은 미션 ${remaining}개',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: Colors.black54,
-                  fontWeight: FontWeight.w600,
-                ),
-              ],
             ),
-          ),
-        ),
-
-        const SizedBox(height: 14),
-
-        // ✅ 버튼 크게
-        SizedBox(
-          height: 60,
-          child: FilledButton.icon(
-            onPressed: onNext,
-            icon: const Icon(Icons.casino, size: 22),
-            label: Text(
-              mission == null ? '게임 시작' : '다음 주제',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
-            ),
-          ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _StartButtonSection extends StatelessWidget {
-  const _StartButtonSection({
-    required this.mission,
-    required this.onNext,
-  });
 
-  final String? mission;
-  final VoidCallback onNext;
+class _StartButtonSection extends StatelessWidget {
+  const _StartButtonSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -333,12 +332,6 @@ class _StartButtonSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        FilledButton.icon(
-          onPressed: onNext,
-          icon: const Icon(Icons.casino),
-          label: Text(mission == null ? '미션 시작' : '다음 미션'),
-        ),
-        const SizedBox(height: 8),
         Text(
           'TIP: 과음은 금물! 물도 같이 마셔요 💧',
           textAlign: TextAlign.center,

@@ -72,37 +72,16 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
       const FavoritesPage(),
     ];
 
-    final titles = <String>['주정뱅이', '칵테일 레시피', '술게임', '밸런스 게임', '즐겨찾기'];
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        toolbarHeight: _index == _tabCombos ? 72 : 100,
-        title: _index == _tabCombos
-            ? Image.asset(
-                'assets/logo.png',
-                height: 44,
-                fit: BoxFit.contain,
-              )
-            : Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/logo.png',
-                    height: 60,
-                    fit: BoxFit.contain,
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    titles[_index],
-                    style: const TextStyle(
-                      fontFamily: 'NanumSquare',
-                      fontWeight: FontWeight.w800,
-                      fontSize: 30,
-                    ),
-                  ),
-                ],
-              ),
+        toolbarHeight: 80, // 통일
+        title: Image.asset(
+          'assets/logo.png',
+          height: 80,
+          fit: BoxFit.contain,
+        ),
         actions: [
           if (_index == _tabCombos)
             Consumer(
@@ -147,22 +126,22 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
           NavigationDestination(
             icon: Icon(Icons.emoji_food_beverage_outlined),
             selectedIcon: Icon(Icons.emoji_food_beverage),
-            label: '조합',
+            label: '술조합',
           ),
           NavigationDestination(
             icon: Icon(Icons.local_bar_outlined),
             selectedIcon: Icon(Icons.local_bar),
-            label: '칵테일 레시피',
+            label: '레시피',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.forum_outlined),
+            selectedIcon: Icon(Icons.forum),
+            label: '대화소재',
           ),
           NavigationDestination(
             icon: Icon(Icons.casino_outlined),
             selectedIcon: Icon(Icons.casino),
             label: '술게임',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.forum_outlined),
-            selectedIcon: Icon(Icons.forum),
-            label: '밸런스 게임',
           ),
           NavigationDestination(
             icon: Icon(Icons.star_border),
