@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../features/combos/state/combos_providers.dart';
+
 import 'package:jjbang/features/favorites/presentation/favorites_page.dart';
 import 'package:jjbang/features/favorites/state/favorites_notifier.dart';
+
 import 'package:jjbang/features/combos/presentation/combo_detail_dialog.dart';
-import 'dart:math' as math;
+import 'package:jjbang/features/combos/presentation/widgets/combos_appbar_search.dart';
+import 'package:jjbang/features/combos/application/filtered_combo_provider.dart';
+import 'package:jjbang/features/combos/application/combo_filter_state.dart';
+import 'package:jjbang/features/combos/application/combos_providers.dart' as app;
+
 import 'package:jjbang/shared/widgets/pressable.dart';
 
-
-
-
-
-
-class AppScaffold extends StatefulWidget {
+class AppScaffold extends ConsumerStatefulWidget {
   const AppScaffold({super.key});
 
   @override
-  State<AppScaffold> createState() => _AppScaffoldState();
+  ConsumerState<AppScaffold> createState() => _AppScaffoldState();
 }
 
-class _AppScaffoldState extends State<AppScaffold> {
+class _AppScaffoldState extends ConsumerState<AppScaffold> {
   int _index = 0;
 
   static const int _tabCombos = 0;
@@ -47,7 +47,6 @@ class _AppScaffoldState extends State<AppScaffold> {
     );
   }
 
-
   void _onTabSelected(int i) {
     final isEnabled = i == _tabCombos || i == _tabFavorites;
     if (!isEnabled) {
@@ -69,18 +68,46 @@ class _AppScaffoldState extends State<AppScaffold> {
 
     final titles = <String>[
       '주정뱅이',
-      '칵테일 레시피',
-      '술게임',
-      '밸런스 게임',
-      '즐겨찾기',
+      '주정뱅이',
+      '주정뱅이',
+      '주정뱅이',
+      '주정뱅이'
     ];
 
     return Scaffold(
       appBar: AppBar(
         title: Text(titles[_index]),
         centerTitle: true,
+        actions: [
+          if (_index == _tabCombos)
+            Consumer(
+              builder: (context, ref, _) {
+                return IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    final cur = ref.read(app.combosSearchOpenProvider);
+
+                    if (cur) {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      ref.read(comboFilterProvider.notifier).setQuery('');
+                    }
+
+                    ref.read(app.combosSearchOpenProvider.notifier).state = !cur;
+                  },
+                );
+              },
+            ),
+        ],
+
       ),
-      body: pages[_index],
+      body: _index == _tabCombos
+          ? Column(
+        children: const [
+          CombosAppbarSearch(),
+          Expanded(child: _CombosScreen()),
+        ],
+      )
+          : pages[_index],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
         onDestinationSelected: _onTabSelected,
@@ -121,7 +148,7 @@ class _CombosScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final asyncCombos = ref.watch(combosProvider);
+    final asyncCombos = ref.watch(filteredComboProvider);
     final favIds = ref.watch(favoritesIdsProvider);
 
     void openCombo(String id) {
@@ -249,10 +276,6 @@ class _CombosScreen extends ConsumerWidget {
   }
 }
 
-
-
-
-
 class _Pill extends StatelessWidget {
   final String text;
   const _Pill({required this.text});
@@ -265,7 +288,10 @@ class _Pill extends StatelessWidget {
         color: Colors.black.withOpacity(0.06),
         borderRadius: BorderRadius.circular(999),
       ),
-      child: Text(text, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+      ),
     );
   }
 }
@@ -282,11 +308,13 @@ class _Tag extends StatelessWidget {
         color: Colors.teal.withOpacity(0.12),
         borderRadius: BorderRadius.circular(999),
       ),
-      child: Text(text, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+      ),
     );
   }
 }
-
 
 class _ComingSoonScreen extends StatelessWidget {
   final String title;
@@ -294,8 +322,6 @@ class _ComingSoonScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('$title 탭 (추후 업데이트 예정)'),
-    );
+    return Center(child: Text('$title 탭 (추후 업데이트 예정)'));
   }
 }
