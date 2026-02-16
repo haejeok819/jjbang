@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../features/combos/application/combos_providers.dart';
+import '../../features/combos/state/combos_providers.dart';
+import 'package:jjbang/features/favorites/presentation/favorites_page.dart';
+import 'package:jjbang/features/favorites/state/favorites_notifier.dart';
+import 'package:jjbang/features/combos/presentation/combo_detail_dialog.dart';
+import 'dart:math' as math;
+import 'package:jjbang/shared/widgets/pressable.dart';
+
+
+
+
+
 
 class AppScaffold extends StatefulWidget {
   const AppScaffold({super.key});
@@ -54,7 +64,7 @@ class _AppScaffoldState extends State<AppScaffold> {
       const _ComingSoonScreen(title: '칵테일'),
       const _ComingSoonScreen(title: '술게임'),
       const _ComingSoonScreen(title: '토론'),
-      const _FavoritesScreen(),
+      const FavoritesPage(),
     ];
 
     final titles = <String>[
@@ -112,6 +122,49 @@ class _CombosScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncCombos = ref.watch(combosProvider);
+    final favIds = ref.watch(favoritesIdsProvider);
+
+    void openCombo(String id) {
+      showGeneralDialog(
+        context: context,
+        barrierDismissible: true,
+        barrierLabel: 'combo_detail',
+        barrierColor: Colors.black.withOpacity(0.45),
+        transitionDuration: const Duration(milliseconds: 300),
+        pageBuilder: (context, anim1, anim2) {
+          return Center(
+            child: Dialog(
+              insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              child: ComboDetailDialog(comboId: id),
+            ),
+          );
+        },
+        transitionBuilder: (context, anim, _, child) {
+          final curved = CurvedAnimation(
+            parent: anim,
+            curve: Curves.easeOutCubic,
+            reverseCurve: Curves.easeInCubic,
+          );
+
+          final fade = Tween<double>(begin: 0.0, end: 1.0).animate(curved);
+          final scale = Tween<double>(begin: 0.92, end: 1.0).animate(curved);
+          final slide = Tween<double>(begin: 28.0, end: 0.0).animate(curved);
+
+          return FadeTransition(
+            opacity: fade,
+            child: Transform.translate(
+              offset: Offset(0, slide.value),
+              child: Transform.scale(
+                scale: scale.value,
+                child: child,
+              ),
+            ),
+          );
+        },
+      );
+    }
 
     return asyncCombos.when(
       loading: () => const Center(child: CircularProgressIndicator()),
@@ -123,33 +176,69 @@ class _CombosScreen extends ConsumerWidget {
           separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, i) {
             final c = combos[i];
-            return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      c.name,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
+            final isFav = favIds.contains(c.id);
+
+            return TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0, end: 1),
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOutCubic,
+              builder: (context, value, child) {
+                return Opacity(
+                  opacity: value,
+                  child: Transform.translate(
+                    offset: Offset(0, (1 - value) * 12),
+                    child: child,
+                  ),
+                );
+              },
+              child: Pressable(
+                onTap: () => openCombo(c.id),
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(14),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _Pill(text: c.base.type),
-                        _Pill(text: '도수 ${c.alcoholLevel}'),
-                        _Pill(text: '난이도 ${c.difficulty}'),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                c.name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                isFav ? Icons.favorite : Icons.favorite_border,
+                              ),
+                              onPressed: () => ref
+                                  .read(favoritesNotifierProvider.notifier)
+                                  .toggle(c.id),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            _Pill(text: c.base.type),
+                            _Pill(text: '도수 ${c.alcoholLevel}'),
+                            _Pill(text: '난이도 ${c.difficulty}'),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: c.taste.map((t) => _Tag(text: t)).toList(),
+                        ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: c.taste.map((t) => _Tag(text: t)).toList(),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             );
@@ -159,6 +248,10 @@ class _CombosScreen extends ConsumerWidget {
     );
   }
 }
+
+
+
+
 
 class _Pill extends StatelessWidget {
   final String text;
@@ -194,17 +287,6 @@ class _Tag extends StatelessWidget {
   }
 }
 
-
-class _FavoritesScreen extends StatelessWidget {
-  const _FavoritesScreen();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('즐겨찾기 탭 (Day 1)'),
-    );
-  }
-}
 
 class _ComingSoonScreen extends StatelessWidget {
   final String title;

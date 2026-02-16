@@ -31,26 +31,31 @@ class CombosPage extends ConsumerWidget {
                   if (items.isEmpty) {
                     return const Center(child: Text('검색 결과가 없어요'));
                   }
+
                   final fav = ref.watch(favoritesIdsProvider);
+
                   return ListView.builder(
                     itemCount: items.length,
                     itemBuilder: (context, i) {
                       final c = items[i];
-                      final id = c.id ?? '';
+                      final id = c.id;
                       final isFav = fav.contains(id);
+
                       return Card(
                         child: ListTile(
-                          title: Text(c.name ?? ''),
-                          subtitle: Text(c.base.toString() ?? ''),
-                          trailing: IconButton(
-                            icon: Icon(isFav ? Icons.favorite : Icons.favorite_border),
-                            onPressed: id.isEmpty
-                                ? null
-                                : () => ref.read(favoritesNotifierProvider.notifier).toggle(id),
+                          title: Text(c.name),
+                          subtitle: Text(
+                            '${c.base.type} (${c.base.ratio}) · ${c.taste.join(" / ")}',
                           ),
-                          onTap: id.isEmpty
-                              ? null
-                              : () {
+                          trailing: IconButton(
+                            icon: Icon(
+                              isFav ? Icons.favorite : Icons.favorite_border,
+                            ),
+                            onPressed: () => ref
+                                .read(favoritesNotifierProvider.notifier)
+                                .toggle(id),
+                          ),
+                          onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (_) => ComboDetailPage(comboId: id),
