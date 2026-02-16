@@ -76,10 +76,10 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        toolbarHeight: 80, // 통일
+        toolbarHeight: 150, // 통일
         title: Image.asset(
           'assets/logo.png',
-          height: 80,
+          height: 150,
           fit: BoxFit.contain,
         ),
         actions: [
