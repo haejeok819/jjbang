@@ -74,14 +74,16 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
       appBar: _index == _tabCombos
           ? null
           : AppBar(
-              centerTitle: true,
-              toolbarHeight: 76,
-              title: Image.asset(
-                'assets/logo.png',
-                height: 64,
-                fit: BoxFit.contain,
-              ),
-            ),
+        centerTitle: true,
+        toolbarHeight: 130,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        title: Image.asset(
+          'assets/logo.png',
+          height: 120,
+          fit: BoxFit.contain,
+        ),
+      ),
       body: _index == _tabCombos ? const _CombosScreen() : pages[_index - 1],
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
@@ -247,7 +249,8 @@ class _CombosScreenState extends ConsumerState<_CombosScreen> {
           delegate: _PinnedCombosControlsHeaderDelegate(
             child: Container(
               color: Theme.of(context).scaffoldBackgroundColor,
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+              padding: const EdgeInsets.fromLTRB(0, 4, 0, 4),
+
               child: const Column(
                 children: [
                   Padding(
