@@ -78,6 +78,12 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
               : null,
         ),
         centerTitle: true,
+        toolbarHeight: 68,
+        title: Image.asset(
+          'assets/logo.png',
+          height: 60,
+          fit: BoxFit.contain,
+        ),
         actions: [
           if (_index == _tabCombos)
             Consumer(
@@ -99,6 +105,7 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
             ),
         ],
       ),
+
       body: _index == _tabCombos
           ? Column(
         children: const [
