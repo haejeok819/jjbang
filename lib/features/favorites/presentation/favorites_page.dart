@@ -6,6 +6,7 @@ import 'package:jjbang/shared/widgets/pressable.dart';
 import 'package:jjbang/shared/widgets/tag_chip.dart';
 
 import '../../combos/presentation/combo_detail_dialog.dart';
+import '../../combos/presentation/widgets/combo_filter_chips.dart';
 import '../state/favorites_notifier.dart';
 import '../state/favorites_sort_provider.dart';
 import 'widgets/favorites_sort_chips.dart';
@@ -64,6 +65,8 @@ class FavoritesPage extends ConsumerWidget {
       child: Column(
         children: [
           const FavoritesSortChips(),
+          const SizedBox(height: 8),
+          const ComboFilterChips(),
           const SizedBox(height: 12),
           Expanded(
             child: async.when(

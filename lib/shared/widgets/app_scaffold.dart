@@ -8,6 +8,7 @@ import 'package:jjbang/features/games/presentation/drinking_game_page.dart';
 import 'package:jjbang/features/combos/domain/combo.dart';
 import 'package:jjbang/features/combos/presentation/combo_detail_dialog.dart';
 import 'package:jjbang/features/combos/presentation/widgets/combo_sort_chips.dart';
+import 'package:jjbang/features/combos/presentation/widgets/combo_filter_chips.dart';
 import 'package:jjbang/features/combos/presentation/widgets/combos_appbar_search.dart';
 import 'package:jjbang/features/combos/application/combo_filter_state.dart';
 import 'package:jjbang/features/combos/application/filtered_combo_provider.dart';
@@ -130,6 +131,10 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(16, 8, 16, 8),
                   child: ComboSortChips(),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  child: ComboFilterChips(),
                 ),
                 Expanded(child: _CombosScreen()),
               ],
@@ -270,94 +275,87 @@ class _ComboCard extends StatelessWidget {
       onTap: onTap,
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 112),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(radius),
-              child: Material(
-                color: Theme.of(context).colorScheme.surface,
-                child: IntrinsicHeight(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(
-                        width: 4,
-                        child: ColoredBox(
-                          color: _alcoholBarColor(combo.alcoholLevel),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(14),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(radius),
+          child: Material(
+            color: Theme.of(context).colorScheme.surface,
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    width: 4,
+                    child: ColoredBox(
+                      color: _alcoholBarColor(combo.alcoholLevel),
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(14),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             children: [
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      combo.name,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w800,
-                                        fontFamily: 'NanumSquare',
-                                      ),
-                                    ),
+                              Expanded(
+                                child: Text(
+                                  combo.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w800,
+                                    fontFamily: 'NanumSquare',
                                   ),
-                                  FavoriteHeartButton(
-                                    isFav: isFav,
-                                    onPressed: onToggleFavorite,
-                                  ),
-                                ],
+                                ),
                               ),
-                              const SizedBox(height: 8),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: [
-                                  TagChip(label: combo.base.type, type: TagType.base),
-                                  TagChip(
-                                    label: '도수 ${combo.alcoholLevel}',
-                                    type: TagType.alcohol,
-                                  ),
-                                  TagChip(
-                                    label: '난이도 ${combo.difficulty}',
-                                    type: TagType.difficulty,
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              Wrap(
-                                spacing: 8,
-                                runSpacing: 8,
-                                children: combo.taste
-                                    .map((t) => TagChip(label: t, type: TagType.taste))
-                                    .toList(),
+                              if (combo.popularity >= 95) ...[
+                                const Badge(
+                                  label: Text('HOT'),
+                                  backgroundColor: Color(0xFFFF5C5C),
+                                  textColor: Colors.white,
+                                ),
+                                const SizedBox(width: 8),
+                              ],
+                              FavoriteHeartButton(
+                                isFav: isFav,
+                                onPressed: onToggleFavorite,
                               ),
                             ],
                           ),
-                        ),
+                          const SizedBox(height: 8),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              TagChip(label: combo.base.type, type: TagType.base),
+                              TagChip(
+                                label: '도수 ${combo.alcoholLevel}',
+                                type: TagType.alcohol,
+                              ),
+                              TagChip(
+                                label: '난이도 ${combo.difficulty}',
+                                type: TagType.difficulty,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: combo.taste
+                                .map((t) => TagChip(label: t, type: TagType.taste))
+                                .toList(),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
-            if (combo.popularity >= 95)
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Badge(
-                  label: const Text('HOT'),
-                  backgroundColor: const Color(0xFFFF5C5C),
-                  textColor: Colors.white,
-                ),
-              ),
-          ],
+          ),
         ),
       ),
     );

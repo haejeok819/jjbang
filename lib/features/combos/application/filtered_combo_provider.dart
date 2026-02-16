@@ -26,7 +26,7 @@ final filteredComboProvider = FutureProvider.autoDispose<List<Combo>>((ref) asyn
   final debounced = ref.watch(debouncedQueryProvider).value ?? filter.query;
 
   final q = debounced.trim().toLowerCase();
-  final selectedBases = filter.selectedBases;
+  final selectedBases = ref.watch(selectedBasesProvider);
 
   bool queryPass(Combo c) {
     if (q.isEmpty) return true;
