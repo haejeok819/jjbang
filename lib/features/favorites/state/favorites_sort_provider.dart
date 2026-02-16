@@ -25,7 +25,9 @@ final sortedFavoritesProvider = FutureProvider.autoDispose<List<Combo>>((ref) as
 
   final favorites = all.where((c) {
     final isFavorite = favIds.contains(c.id);
-    final basePass = selectedBases.isEmpty || selectedBases.contains(c.base.type);
+    final basePass = selectedBases.isEmpty ||
+        selectedBases.contains(c.base.type) ||
+        c.mixers.any((m) => selectedBases.contains(m.name));
     return isFavorite && basePass;
   }).toList();
 
