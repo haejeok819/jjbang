@@ -2,78 +2,37 @@
   {
     "id": "combo_001",
     "name": "황금비율 소맥",
-    "base": {
-      "type": "소주",
-      "ratio": "3"
-    },
-    "mixers": [
-      {
-        "name": "맥주",
-        "ratio": "7"
-      }
-    ],
-    "taste": [
-      "청량",
-      "부드러움",
-      "밸런스"
-    ],
+    "base": { "type": "맥주", "ratio": "7" },
+    "mixers": [{ "name": "소주", "ratio": "3" }],
+    "taste": ["청량", "부드러움", "밸런스"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 100,
-    "keywords": [
-      "소맥",
-      "3대7",
-      "황금비율"
-    ],
-    "extraTags": [
-      "국민조합",
-      "회식국룰"
-    ],
+    "keywords": ["소맥", "3대7", "황금비율"],
+    "extraTags": ["국민조합", "회식국룰"],
     "steps": [
       "차가운 맥주 7 먼저",
       "소주 3 천천히 붓기",
       "거품 넘치지 않게 1번만 가볍게 섞기"
     ],
-    "tools": [
-      "맥주잔"
-    ],
+    "tools": ["맥주잔"],
     "oneLiner": "한국 술자리의 평균값.",
     "warning": "국룰이라 방심하면 연속 3잔은 기본."
   },
   {
     "id": "combo_002",
     "name": "연태 하이볼",
-    "base": {
-      "type": "고량주",
-      "ratio": "1"
-    },
+    "base": { "type": "고량주", "ratio": "1" },
     "mixers": [
-      {
-        "name": "토닉워터",
-        "ratio": "3"
-      },
-      {
-        "name": "레몬",
-        "ratio": "약간"
-      }
+      { "name": "토닉워터", "ratio": "3" },
+      { "name": "레몬", "ratio": "약간" }
     ],
-    "taste": [
-      "상큼",
-      "청량",
-      "향긋"
-    ],
+    "taste": ["상큼", "청량", "향긋"],
     "alcoholLevel": "높음",
     "difficulty": "쉬움",
     "popularity": 95,
-    "keywords": [
-      "연태",
-      "고량주",
-      "하이볼"
-    ],
-    "extraTags": [
-      "탄산",
-      "중식당필수"
-    ],
+    "keywords": ["연태", "고량주", "하이볼"],
+    "extraTags": ["탄산", "중식당필수"],
     "steps": [
       "얼음 가득",
       "연태 1",
@@ -81,1442 +40,684 @@
       "레몬 향만 살짝",
       "탄산 살리게 가볍게 젓기"
     ],
-    "tools": [
-      "하이볼 잔",
-      "얼음"
-    ],
+    "tools": ["하이볼 잔", "얼음"],
     "oneLiner": "처음은 향, 끝은 도수.",
     "warning": "체감보다 세다. 연속으로 마시면 훅 간다."
   },
   {
     "id": "combo_003",
     "name": "위스키콜라",
-    "base": {
-      "type": "위스키",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "콜라",
-        "ratio": "3"
-      }
-    ],
-    "taste": [
-      "달달",
-      "탄산",
-      "바닐라향"
-    ],
+    "base": { "type": "위스키", "ratio": "1" },
+    "mixers": [{ "name": "콜라", "ratio": "3" }],
+    "taste": ["달달", "탄산", "바닐라향"],
     "alcoholLevel": "높음",
     "difficulty": "쉬움",
     "popularity": 60,
-    "keywords": [
-      "위콜",
-      "잭콕",
-      "위스키콜라"
-    ],
-    "extraTags": [
-      "하이볼",
-      "클래식"
-    ],
+    "keywords": ["위콜", "잭콕", "위스키콜라"],
+    "extraTags": ["하이볼", "클래식"],
     "steps": [
       "얼음 가득",
       "위스키 1",
       "콜라 3 천천히",
       "1~2번만 살짝 섞기"
     ],
-    "tools": [
-      "하이볼 잔",
-      "얼음"
-    ],
+    "tools": ["하이볼 잔", "얼음"],
     "oneLiner": "달달하게 시작해서 진하게 끝난다.",
     "warning": "콜라가 술맛을 가려서 과속하기 쉬움."
   },
   {
     "id": "combo_004",
     "name": "맥주사이다",
-    "base": {
-      "type": "맥주",
-      "ratio": "3"
-    },
-    "mixers": [
-      {
-        "name": "사이다",
-        "ratio": "1"
-      }
-    ],
-    "taste": [
-      "청량",
-      "가벼움",
-      "달콤"
-    ],
+    "base": { "type": "맥주", "ratio": "3" },
+    "mixers": [{ "name": "사이다", "ratio": "1" }],
+    "taste": ["청량", "가벼움", "달콤"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 85,
-    "keywords": [
-      "맥사",
-      "맥주사이다"
-    ],
-    "extraTags": [
-      "가벼운시작"
-    ],
+    "keywords": ["맥사", "맥주사이다"],
+    "extraTags": ["가벼운시작"],
     "steps": [
       "맥주 3 먼저",
       "사이다 1 천천히",
       "거품 넘치지 않게 살짝 섞기"
     ],
-    "tools": [
-      "맥주잔"
-    ],
+    "tools": ["맥주잔"],
     "oneLiner": "맥주의 쓴맛을 사이다가 부드럽게 감싼다.",
     "warning": "가볍다고 방심하면 양 조절 실패."
   },
   {
     "id": "combo_005",
     "name": "막사",
-    "base": {
-      "type": "막걸리",
-      "ratio": "2"
-    },
-    "mixers": [
-      {
-        "name": "사이다",
-        "ratio": "1"
-      }
-    ],
-    "taste": [
-      "달콤",
-      "부드러움",
-      "탄산"
-    ],
+    "base": { "type": "막걸리", "ratio": "2" },
+    "mixers": [{ "name": "사이다", "ratio": "1" }],
+    "taste": ["달콤", "부드러움", "탄산"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 82,
-    "keywords": [
-      "막사",
-      "막걸리사이다"
-    ],
-    "extraTags": [
-      "초심자추천"
-    ],
+    "keywords": ["막사", "막걸리사이다"],
+    "extraTags": ["초심자추천"],
     "steps": [
       "막걸리 2",
       "사이다 1",
       "거품 날아가지 않게 살살 섞기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "막걸리 입문자를 위한 부드러운 타협안.",
     "warning": "달달해서 생각보다 많이 마시게 된다."
   },
   {
     "id": "combo_006",
     "name": "잭콕",
-    "base": {
-      "type": "위스키",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "콜라",
-        "ratio": "3"
-      }
-    ],
-    "taste": [
-      "달달",
-      "바닐라",
-      "탄산"
-    ],
+    "base": { "type": "위스키", "ratio": "1" },
+    "mixers": [{ "name": "콜라", "ratio": "3" }],
+    "taste": ["달달", "바닐라", "탄산"],
     "alcoholLevel": "높음",
     "difficulty": "쉬움",
     "popularity": 96,
-    "keywords": [
-      "잭콕",
-      "잭다니엘",
-      "위스키콜라"
-    ],
-    "extraTags": [
-      "클래식",
-      "국민위스키"
-    ],
-    "steps": [
-      "얼음 가득",
-      "잭다니엘 1",
-      "콜라 3 천천히",
-      "1~2번만 살짝 젓기"
-    ],
-    "tools": [
-      "하이볼 잔",
-      "얼음"
-    ],
+    "keywords": ["잭콕", "잭다니엘", "위스키콜라"],
+    "extraTags": ["클래식", "국민위스키"],
+    "steps": ["얼음 가득", "잭다니엘 1", "콜라 3 천천히", "1~2번만 살짝 젓기"],
+    "tools": ["하이볼 잔", "얼음"],
     "oneLiner": "콜라가 먼저 웃기고, 잭이 뒤에서 때린다.",
     "warning": "달달해서 속도 붙는다. 2잔째부터 ‘갑자기’ 온다."
   },
   {
     "id": "combo_007",
     "name": "가쿠빈 하이볼",
-    "base": {
-      "type": "위스키",
-      "ratio": "1"
-    },
+    "base": { "type": "위스키", "ratio": "1" },
     "mixers": [
-      {
-        "name": "토닉워터",
-        "ratio": "3"
-      },
-      {
-        "name": "레몬",
-        "ratio": "약간"
-      }
+      { "name": "토닉워터", "ratio": "3" },
+      { "name": "레몬", "ratio": "약간" }
     ],
-    "taste": [
-      "청량",
-      "깔끔",
-      "레몬향"
-    ],
+    "taste": ["청량", "깔끔", "레몬향"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 94,
-    "keywords": [
-      "가쿠빈",
-      "하이볼",
-      "산토리"
-    ],
-    "extraTags": [
-      "이자카야감성",
-      "기본기"
-    ],
-    "steps": [
-      "잔 차갑게(가능하면)",
-      "얼음 가득",
-      "가쿠빈 1",
-      "토닉 3",
-      "레몬 살짝",
-      "탄산 안 죽게 1번만 젓기"
-    ],
-    "tools": [
-      "하이볼 잔",
-      "얼음"
-    ],
+    "keywords": ["가쿠빈", "하이볼", "산토리"],
+    "extraTags": ["이자카야감성", "기본기"],
+    "steps": ["잔 차갑게(가능하면)", "얼음 가득", "가쿠빈 1", "토닉 3", "레몬 살짝", "탄산 안 죽게 1번만 젓기"],
+    "tools": ["하이볼 잔", "얼음"],
     "oneLiner": "하이볼의 교과서. 얌전한데 계속 생각난다.",
     "warning": "세게 저으면 김 빠져서 그냥 ‘탄산 없는 인생’ 된다."
   },
   {
     "id": "combo_008",
     "name": "짐빔 하이볼",
-    "base": {
-      "type": "위스키",
-      "ratio": "1"
-    },
+    "base": { "type": "위스키", "ratio": "1" },
     "mixers": [
-      {
-        "name": "토닉워터",
-        "ratio": "3"
-      },
-      {
-        "name": "레몬",
-        "ratio": "약간"
-      }
+      { "name": "토닉워터", "ratio": "3" },
+      { "name": "레몬", "ratio": "약간" }
     ],
-    "taste": [
-      "달큰",
-      "오크",
-      "청량"
-    ],
+    "taste": ["달큰", "오크", "청량"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 92,
-    "keywords": [
-      "짐빔",
-      "하이볼",
-      "버번"
-    ],
-    "extraTags": [
-      "버번입문"
-    ],
-    "steps": [
-      "얼음 가득",
-      "짐빔 1",
-      "토닉 3",
-      "레몬 마무리",
-      "살짝만 젓기"
-    ],
-    "tools": [
-      "하이볼 잔",
-      "얼음"
-    ],
+    "keywords": ["짐빔", "하이볼", "버번"],
+    "extraTags": ["버번입문"],
+    "steps": ["얼음 가득", "짐빔 1", "토닉 3", "레몬 마무리", "살짝만 젓기"],
+    "tools": ["하이볼 잔", "얼음"],
     "oneLiner": "버번의 달큰함을 탄산으로 ‘척’ 정리한 맛.",
     "warning": "달달해서 안주 없이도 잘 들어가는데, 그게 함정."
   },
   {
     "id": "combo_009",
     "name": "제임슨 진저 하이볼",
-    "base": {
-      "type": "위스키",
-      "ratio": "1"
-    },
+    "base": { "type": "위스키", "ratio": "1" },
     "mixers": [
-      {
-        "name": "토닉워터",
-        "ratio": "2"
-      },
-      {
-        "name": "사이다",
-        "ratio": "1"
-      },
-      {
-        "name": "레몬",
-        "ratio": "약간"
-      }
+      { "name": "토닉워터", "ratio": "2" },
+      { "name": "사이다", "ratio": "1" },
+      { "name": "레몬", "ratio": "약간" }
     ],
-    "taste": [
-      "달큰",
-      "스파이시",
-      "청량"
-    ],
+    "taste": ["달큰", "스파이시", "청량"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 88,
-    "keywords": [
-      "제임슨",
-      "진저",
-      "하이볼"
-    ],
-    "extraTags": [
-      "편의점가능",
-      "입문추천"
-    ],
-    "steps": [
-      "얼음 가득",
-      "제임슨 1",
-      "토닉 2",
-      "사이다 1",
-      "레몬 살짝",
-      "1번만 젓기"
-    ],
-    "tools": [
-      "하이볼 잔",
-      "얼음"
-    ],
+    "keywords": ["제임슨", "진저", "하이볼"],
+    "extraTags": ["편의점가능", "입문추천"],
+    "steps": ["얼음 가득", "제임슨 1", "토닉 2", "사이다 1", "레몬 살짝", "1번만 젓기"],
+    "tools": ["하이볼 잔", "얼음"],
     "oneLiner": "부드럽게 시작해서, 뒤에 살짝 매콤하게 끝나는 타입.",
     "warning": "달달+탄산 조합이라 체감보다 빨리 취한다."
   },
   {
     "id": "combo_010",
     "name": "발렌타인 소다 하이볼",
-    "base": {
-      "type": "위스키",
-      "ratio": "1"
-    },
+    "base": { "type": "위스키", "ratio": "1" },
     "mixers": [
-      {
-        "name": "토닉워터",
-        "ratio": "4"
-      },
-      {
-        "name": "레몬",
-        "ratio": "약간"
-      }
+      { "name": "토닉워터", "ratio": "4" },
+      { "name": "레몬", "ratio": "약간" }
     ],
-    "taste": [
-      "깔끔",
-      "청량",
-      "드라이"
-    ],
+    "taste": ["깔끔", "청량", "드라이"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 86,
-    "keywords": [
-      "발렌타인",
-      "하이볼",
-      "소다"
-    ],
-    "extraTags": [
-      "깔끔파"
-    ],
-    "steps": [
-      "얼음 가득",
-      "발렌타인 1",
-      "토닉 4",
-      "레몬 향만 살짝",
-      "젓지 말고 살짝 흔들기(1번)"
-    ],
-    "tools": [
-      "하이볼 잔",
-      "얼음"
-    ],
+    "keywords": ["발렌타인", "하이볼", "소다"],
+    "extraTags": ["깔끔파"],
+    "steps": ["얼음 가득", "발렌타인 1", "토닉 4", "레몬 향만 살짝", "젓지 말고 살짝 흔들기(1번)"],
+    "tools": ["하이볼 잔", "얼음"],
     "oneLiner": "말수 적은데 센스 있는 선배 같은 하이볼.",
     "warning": "비율이 가벼워 보여도 연타하면 누적된다."
   },
   {
     "id": "combo_011",
     "name": "복소사",
-    "base": {
-      "type": "사이다",
-      "ratio": "2"
-    },
+    "base": { "type": "사이다", "ratio": "2" },
     "mixers": [
-      {
-        "name": "소주",
-        "ratio": "1"
-      },
-      {
-        "name": "복분자",
-        "ratio": "1"
-      }
+      { "name": "소주", "ratio": "1" },
+      { "name": "복분자", "ratio": "1" }
     ],
-    "taste": [
-      "달콤",
-      "상큼",
-      "청량"
-    ],
+    "taste": ["달콤", "상큼", "청량"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 93,
-    "keywords": [
-      "복소사",
-      "복분자",
-      "소주사이다"
-    ],
-    "extraTags": [
-      "MT",
-      "인싸조합"
-    ],
-    "steps": [
-      "큰 잔(또는 주전자)에 사이다 2",
-      "소주 1",
-      "복분자 1",
-      "거품 안 나게 살살 섞기"
-    ],
-    "tools": [
-      "큰 컵",
-      "얼음"
-    ],
+    "keywords": ["복소사", "복분자", "소주사이다"],
+    "extraTags": ["MT", "인싸조합"],
+    "steps": ["큰 잔(또는 주전자)에 사이다 2", "소주 1", "복분자 1", "거품 안 나게 살살 섞기"],
+    "tools": ["큰 컵", "얼음"],
     "oneLiner": "색부터 반칙. 맛도 반칙. 기억은… 삭제.",
     "warning": "달달해서 들이키기 쉬움 + 실제 도수 체감보다 높음."
   },
   {
     "id": "combo_012",
     "name": "말리부 파인애플",
-    "base": {
-      "type": "위스키",
-      "ratio": "0"
-    },
+    "base": { "type": "위스키", "ratio": "0" },
     "mixers": [
-      {
-        "name": "말리부",
-        "ratio": "1"
-      },
-      {
-        "name": "파인애플주스",
-        "ratio": "3"
-      }
+      { "name": "말리부", "ratio": "1" },
+      { "name": "파인애플주스", "ratio": "3" }
     ],
-    "taste": [
-      "열대",
-      "달달",
-      "코코넛"
-    ],
+    "taste": ["열대", "달달", "코코넛"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 87,
-    "keywords": [
-      "말리부",
-      "파인",
-      "럼칵테일"
-    ],
-    "extraTags": [
-      "휴양지감성"
-    ],
-    "steps": [
-      "얼음 가득",
-      "말리부 1",
-      "파인애플주스 3",
-      "살짝 섞기"
-    ],
-    "tools": [
-      "잔",
-      "얼음"
-    ],
+    "keywords": ["말리부", "파인", "럼칵테일"],
+    "extraTags": ["휴양지감성"],
+    "steps": ["얼음 가득", "말리부 1", "파인애플주스 3", "살짝 섞기"],
+    "tools": ["잔", "얼음"],
     "oneLiner": "방구석이 갑자기 리조트가 되는 맛.",
     "warning": "너무 잘 들어가서 ‘술’인 걸 잊는다."
   },
   {
     "id": "combo_013",
     "name": "깔루아 밀크",
-    "base": {
-      "type": "위스키",
-      "ratio": "0"
-    },
+    "base": { "type": "위스키", "ratio": "0" },
     "mixers": [
-      {
-        "name": "깔루아",
-        "ratio": "1"
-      },
-      {
-        "name": "우유",
-        "ratio": "3"
-      }
+      { "name": "깔루아", "ratio": "1" },
+      { "name": "우유", "ratio": "3" }
     ],
-    "taste": [
-      "커피",
-      "달콤",
-      "부드러움"
-    ],
+    "taste": ["커피", "달콤", "부드러움"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 84,
-    "keywords": [
-      "깔루아",
-      "밀크",
-      "커피칵테일"
-    ],
-    "extraTags": [
-      "디저트술"
-    ],
-    "steps": [
-      "얼음(선택)",
-      "깔루아 1",
-      "우유 3",
-      "살짝 섞기"
-    ],
-    "tools": [
-      "컵",
-      "얼음"
-    ],
+    "keywords": ["깔루아", "밀크", "커피칵테일"],
+    "extraTags": ["디저트술"],
+    "steps": ["얼음(선택)", "깔루아 1", "우유 3", "살짝 섞기"],
+    "tools": ["컵", "얼음"],
     "oneLiner": "커피인 척 들어왔다가 술로 퇴장한다.",
     "warning": "달달해서 연타 금지. 다음 날 입 텁텁할 수 있음."
   },
   {
     "id": "combo_014",
     "name": "예거밤",
-    "base": {
-      "type": "위스키",
-      "ratio": "0"
-    },
+    "base": { "type": "위스키", "ratio": "0" },
     "mixers": [
-      {
-        "name": "예거마이스터",
-        "ratio": "1"
-      },
-      {
-        "name": "레드불/핫식스",
-        "ratio": "3"
-      }
+      { "name": "예거마이스터", "ratio": "1" },
+      { "name": "레드불/핫식스", "ratio": "3" }
     ],
-    "taste": [
-      "강렬",
-      "달달",
-      "허브"
-    ],
+    "taste": ["강렬", "달달", "허브"],
     "alcoholLevel": "높음",
     "difficulty": "쉬움",
     "popularity": 89,
-    "keywords": [
-      "예거밤",
-      "예거",
-      "레드불"
-    ],
-    "extraTags": [
-      "텐션부스터"
-    ],
-    "steps": [
-      "큰 잔에 에너지드링크 3",
-      "샷잔에 예거 1",
-      "샷을 떨어뜨리고 바로 마시기"
-    ],
-    "tools": [
-      "샷잔",
-      "잔"
-    ],
+    "keywords": ["예거밤", "예거", "레드불"],
+    "extraTags": ["텐션부스터"],
+    "steps": ["큰 잔에 에너지드링크 3", "샷잔에 예거 1", "샷을 떨어뜨리고 바로 마시기"],
+    "tools": ["샷잔", "잔"],
     "oneLiner": "기분이 아니라 텐션을 ‘강제 업데이트’ 해버림.",
     "warning": "에너지드링크+알코올 조합은 컨디션 박살 내기 쉬움. 과음 금지."
   },
   {
     "id": "combo_015",
     "name": "소주토닉",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
+    "base": { "type": "소주", "ratio": "1" },
     "mixers": [
-      {
-        "name": "토닉워터",
-        "ratio": "2"
-      },
-      {
-        "name": "레몬",
-        "ratio": "약간"
-      }
+      { "name": "토닉워터", "ratio": "2" },
+      { "name": "레몬", "ratio": "약간" }
     ],
-    "taste": [
-      "상큼",
-      "청량",
-      "가벼움"
-    ],
+    "taste": ["상큼", "청량", "가벼움"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 82,
-    "keywords": [
-      "소토닉",
-      "레몬",
-      "소주하이볼"
-    ],
-    "extraTags": [
-      "편의점가능",
-      "가벼운시작"
-    ],
-    "steps": [
-      "얼음 가득",
-      "소주 1",
-      "토닉 2",
-      "레몬 살짝",
-      "탄산 살리게 1번만 젓기"
-    ],
-    "tools": [
-      "하이볼 잔",
-      "얼음"
-    ],
+    "keywords": ["소토닉", "레몬", "소주하이볼"],
+    "extraTags": ["편의점가능", "가벼운시작"],
+    "steps": ["얼음 가득", "소주 1", "토닉 2", "레몬 살짝", "탄산 살리게 1번만 젓기"],
+    "tools": ["하이볼 잔", "얼음"],
     "oneLiner": "소주가 ‘좀 더 착해진 척’하는 조합.",
     "warning": "토닉 단맛 때문에 페이스 잃기 쉬움."
   },
   {
     "id": "combo_016",
     "name": "강민경 꿀주",
-    "base": {
-      "type": "소주",
-      "ratio": "9"
-    },
-    "mixers": [
-      {
-        "name": "맥주",
-        "ratio": "1"
-      }
-    ],
-    "taste": [
-      "달달",
-      "부드러움",
-      "밸런스"
-    ],
+    "base": { "type": "맥주", "ratio": "1" },
+    "mixers": [{ "name": "소주", "ratio": "9" }],
+    "taste": ["달달", "부드러움", "밸런스"],
     "alcoholLevel": "높음",
     "difficulty": "쉬움",
     "popularity": 97,
-    "keywords": [
-      "꿀주",
-      "소맥",
-      "강민경 꿀주"
-    ],
-    "extraTags": [
-      "강민경",
-      "소맥"
-    ],
+    "keywords": ["꿀주", "소맥", "강민경 꿀주"],
+    "extraTags": ["강민경", "소맥"],
     "steps": [
       "차가운 소주를 9만큼 붓고,",
       "맥주를 1만큼 부은 다음에",
       "섞지 않고 바로 마셔야 강민경 꿀주 !"
     ],
-    "tools": [
-      "소주잔"
-    ],
+    "tools": ["소주잔"],
     "oneLiner": "들어는 봤나 다비치 강민경 꿀주?",
     "warning": "달달하다고 여러번 마시면 금방 취함"
   },
   {
     "id": "combo_017",
     "name": "코젤 다크 시나몬",
-    "base": {
-      "type": "맥주",
-      "ratio": "1"
-    },
+    "base": { "type": "맥주", "ratio": "1" },
     "mixers": [
-      {
-        "name": "시나몬가루",
-        "ratio": "약간"
-      },
-      {
-        "name": "설탕",
-        "ratio": "잔테두리"
-      }
+      { "name": "시나몬가루", "ratio": "약간" },
+      { "name": "설탕", "ratio": "잔테두리" }
     ],
-    "taste": [
-      "달콤",
-      "고소",
-      "흑맥주"
-    ],
+    "taste": ["달콤", "고소", "흑맥주"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 90,
-    "keywords": [
-      "코젤",
-      "시나몬맥주",
-      "코젤다크"
-    ],
-    "extraTags": [
-      "카페감성",
-      "흑맥주"
-    ],
+    "keywords": ["코젤", "시나몬맥주", "코젤다크"],
+    "extraTags": ["카페감성", "흑맥주"],
     "steps": [
       "잔 테두리에 물 묻히기",
       "설탕 묻혀 코팅",
       "코젤 다크 따르기",
       "시나몬가루 살짝 뿌리기"
     ],
-    "tools": [
-      "맥주잔"
-    ],
+    "tools": ["맥주잔"],
     "oneLiner": "맥주가 아니라 디저트 같다.",
     "warning": "달달해서 맥주라는 사실을 잊게 됨."
   },
   {
     "id": "combo_018",
     "name": "테슬라 소맥",
-    "base": {
-      "type": "소주",
-      "ratio": "2"
-    },
-    "mixers": [
-      {
-        "name": "맥주",
-        "ratio": "8"
-      }
-    ],
-    "taste": [
-      "청량",
-      "깔끔",
-      "드라이"
-    ],
+    "base": { "type": "맥주", "ratio": "8" },
+    "mixers": [{ "name": "소주", "ratio": "2" }],
+    "taste": ["청량", "깔끔", "드라이"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 97,
-    "keywords": [
-      "테슬라",
-      "테라참이슬",
-      "소맥"
-    ],
-    "extraTags": [
-      "국룰",
-      "회식"
-    ],
+    "keywords": ["테슬라", "테라참이슬", "소맥"],
+    "extraTags": ["국룰", "회식"],
     "steps": [
       "테라 8 먼저",
       "참이슬 2",
       "1번만 가볍게 섞기"
     ],
-    "tools": [
-      "맥주잔"
-    ],
+    "tools": ["맥주잔"],
     "oneLiner": "요즘 회식장의 표준값.",
     "warning": "부드러워서 속도 조절 실패하기 쉬움."
   },
   {
     "id": "combo_019",
     "name": "복분자 맥주",
-    "base": {
-      "type": "맥주",
-      "ratio": "2"
-    },
-    "mixers": [
-      {
-        "name": "복분자",
-        "ratio": "1"
-      }
-    ],
-    "taste": [
-      "달콤",
-      "상큼",
-      "베리향"
-    ],
+    "base": { "type": "맥주", "ratio": "2" },
+    "mixers": [{ "name": "복분자", "ratio": "1" }],
+    "taste": ["달콤", "상큼", "베리향"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 85,
-    "keywords": [
-      "복맥",
-      "복분자맥주"
-    ],
-    "extraTags": [
-      "MT감성"
-    ],
+    "keywords": ["복맥", "복분자맥주"],
+    "extraTags": ["MT감성"],
     "steps": [
       "맥주 2",
       "복분자 1",
       "거품 넘치지 않게 섞기"
     ],
-    "tools": [
-      "맥주잔"
-    ],
+    "tools": ["맥주잔"],
     "oneLiner": "색감부터 인싸.",
     "warning": "색이 예뻐서 과속 주의."
   },
   {
     "id": "combo_020",
     "name": "청포도에이드 소주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "청포도에이드",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "상큼",
-      "달콤",
-      "청량"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "청포도에이드", "ratio": "2" }],
+    "taste": ["상큼", "달콤", "청량"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 88,
-    "keywords": [
-      "청포도소주",
-      "에이드소주"
-    ],
-    "extraTags": [
-      "여성인기",
-      "가벼운시작"
-    ],
+    "keywords": ["청포도소주", "에이드소주"],
+    "extraTags": ["여성인기", "가벼운시작"],
     "steps": [
       "얼음 가득",
       "소주 1",
       "청포도에이드 2",
       "가볍게 섞기"
     ],
-    "tools": [
-      "하이볼 잔",
-      "얼음"
-    ],
+    "tools": ["하이볼 잔", "얼음"],
     "oneLiner": "소주가 갑자기 카페 메뉴가 된다.",
     "warning": "음료수처럼 마시면 다음 날 후회."
   },
   {
     "id": "combo_021",
     "name": "요구르트주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "요구르트",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "달콤",
-      "부드러움",
-      "요거트향"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "요구르트", "ratio": "2" }],
+    "taste": ["달콤", "부드러움", "요거트향"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 92,
-    "keywords": [
-      "요구르트소주",
-      "요구르트주"
-    ],
-    "extraTags": [
-      "편의점가능",
-      "초심자추천"
-    ],
+    "keywords": ["요구르트소주", "요구르트주"],
+    "extraTags": ["편의점가능", "초심자추천"],
     "steps": [
       "소주 1",
       "요구르트 2",
       "잘 섞기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "추억의 맛이 갑자기 취기를 데려온다.",
     "warning": "부드러워서 도수 체감 거의 없음."
   },
   {
     "id": "combo_022",
     "name": "소주+파워에이드",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "파워에이드",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "상큼",
-      "청량",
-      "달콤"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "파워에이드", "ratio": "2" }],
+    "taste": ["상큼", "청량", "달콤"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 84,
-    "keywords": [
-      "파워소주",
-      "블루소주"
-    ],
-    "extraTags": [
-      "MT",
-      "색감맛집"
-    ],
+    "keywords": ["파워소주", "블루소주"],
+    "extraTags": ["MT", "색감맛집"],
     "steps": [
       "소주 1",
       "파워에이드 2",
       "가볍게 섞기"
     ],
-    "tools": [
-      "컵",
-      "얼음"
-    ],
+    "tools": ["컵", "얼음"],
     "oneLiner": "색부터 시선 강탈.",
     "warning": "음료 느낌 강해서 과음 주의."
   },
   {
     "id": "combo_023",
     "name": "소주+환타",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "환타 오렌지",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "오렌지",
-      "달콤",
-      "청량"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "환타 오렌지", "ratio": "2" }],
+    "taste": ["오렌지", "달콤", "청량"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 83,
-    "keywords": [
-      "환타소주",
-      "오렌지소주"
-    ],
-    "extraTags": [
-      "편의점가능"
-    ],
+    "keywords": ["환타소주", "오렌지소주"],
+    "extraTags": ["편의점가능"],
     "steps": [
       "소주 1",
       "환타 2",
       "살짝 섞기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "오렌지 음료인 척하는 술.",
     "warning": "단맛 때문에 속도 붙는다."
   },
   {
     "id": "combo_024",
     "name": "레몬 맥주",
-    "base": {
-      "type": "맥주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "레몬즙",
-        "ratio": "약간"
-      }
-    ],
-    "taste": [
-      "상큼",
-      "청량",
-      "가벼움"
-    ],
+    "base": { "type": "맥주", "ratio": "1" },
+    "mixers": [{ "name": "레몬즙", "ratio": "약간" }],
+    "taste": ["상큼", "청량", "가벼움"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 60,
-    "keywords": [
-      "레몬맥주"
-    ],
-    "extraTags": [
-      "가벼운시작"
-    ],
+    "keywords": ["레몬맥주"],
+    "extraTags": ["가벼운시작"],
     "steps": [
       "맥주 따르기",
       "레몬즙 몇 방울",
       "1번만 살짝 섞기"
     ],
-    "tools": [
-      "맥주잔"
-    ],
+    "tools": ["맥주잔"],
     "oneLiner": "여름밤에 어울리는 산뜻한 한잔.",
     "warning": "상큼해서 계속 리필하게 됨."
   },
   {
     "id": "combo_025",
     "name": "카스+청하",
-    "base": {
-      "type": "맥주",
-      "ratio": "7"
-    },
-    "mixers": [
-      {
-        "name": "청하",
-        "ratio": "3"
-      }
-    ],
-    "taste": [
-      "깔끔",
-      "드라이",
-      "청량"
-    ],
+    "base": { "type": "맥주", "ratio": "7" },
+    "mixers": [{ "name": "청하", "ratio": "3" }],
+    "taste": ["깔끔", "드라이", "청량"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 89,
-    "keywords": [
-      "청맥",
-      "카청"
-    ],
-    "extraTags": [
-      "회식변형"
-    ],
+    "keywords": ["청맥", "카청"],
+    "extraTags": ["회식변형"],
     "steps": [
       "카스 7",
       "청하 3",
       "가볍게 1번만 섞기"
     ],
-    "tools": [
-      "맥주잔"
-    ],
+    "tools": ["맥주잔"],
     "oneLiner": "소맥보다 깔끔하게 떨어지는 느낌.",
     "warning": "생각보다 도수 빨리 오른다."
   },
   {
     "id": "combo_026",
     "name": "밀키스 소주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "밀키스",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "달콤",
-      "부드러움",
-      "탄산"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "밀키스", "ratio": "2" }],
+    "taste": ["달콤", "부드러움", "탄산"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 91,
-    "keywords": [
-      "밀키스소주",
-      "밀소",
-      "밀키스"
-    ],
-    "extraTags": [
-      "편의점조합",
-      "초심자추천"
-    ],
+    "keywords": ["밀키스소주", "밀소", "밀키스"],
+    "extraTags": ["편의점조합", "초심자추천"],
     "steps": [
       "소주 1",
       "밀키스 2",
       "부드럽게 섞기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "탄산 우유가 술을 숨겨버린다.",
     "warning": "달달+탄산 콤보는 다음 날 숙취 확률 상승."
   },
+
   {
     "id": "combo_027",
     "name": "폴라포 소주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "폴라포(포도)",
-        "ratio": "1개"
-      }
-    ],
-    "taste": [
-      "달콤",
-      "베리",
-      "슬러시"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "폴라포(포도)", "ratio": "1개" }],
+    "taste": ["달콤", "베리", "슬러시"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 95,
-    "keywords": [
-      "폴라포소주",
-      "아이스크림주"
-    ],
-    "extraTags": [
-      "SNS핫",
-      "MT필수"
-    ],
+    "keywords": ["폴라포소주", "아이스크림주"],
+    "extraTags": ["SNS핫", "MT필수"],
     "steps": [
       "컵에 폴라포 짜 넣기",
       "소주 1 붓기",
       "잘 저어서 슬러시처럼 만들기"
     ],
-    "tools": [
-      "컵",
-      "숟가락"
-    ],
+    "tools": ["컵", "숟가락"],
     "oneLiner": "어릴 때 간식이 어른이 되어 돌아왔다.",
     "warning": "슬러시처럼 잘 들어가서 과속 위험."
   },
   {
     "id": "combo_028",
     "name": "스크류바 소주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "스크류바",
-        "ratio": "1개"
-      }
-    ],
-    "taste": [
-      "상큼",
-      "복숭아",
-      "달콤"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "스크류바", "ratio": "1개" }],
+    "taste": ["상큼", "복숭아", "달콤"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 92,
-    "keywords": [
-      "스크류바소주"
-    ],
-    "extraTags": [
-      "편의점가능",
-      "SNS핫"
-    ],
+    "keywords": ["스크류바소주"],
+    "extraTags": ["편의점가능", "SNS핫"],
     "steps": [
       "컵에 스크류바 넣기",
       "소주 붓기",
       "녹을 때까지 저어 마시기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "복숭아 슬러시가 갑자기 취기를 데려온다.",
     "warning": "맛이 좋아서 계속 리필하게 됨."
   },
   {
     "id": "combo_029",
     "name": "메로나 소주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "메로나",
-        "ratio": "1개"
-      }
-    ],
-    "taste": [
-      "부드러움",
-      "달콤",
-      "멜론"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "메로나", "ratio": "1개" }],
+    "taste": ["부드러움", "달콤", "멜론"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 90,
-    "keywords": [
-      "메로나소주",
-      "멜론주"
-    ],
-    "extraTags": [
-      "초심자추천"
-    ],
+    "keywords": ["메로나소주", "멜론주"],
+    "extraTags": ["초심자추천"],
     "steps": [
       "컵에 메로나 넣기",
       "소주 붓기",
       "잘 섞어 녹이기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "멜론 아이스크림이 술을 숨긴다.",
     "warning": "체감 도수 거의 없음."
   },
   {
     "id": "combo_030",
     "name": "죠스바 소주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "죠스바",
-        "ratio": "1개"
-      }
-    ],
-    "taste": [
-      "딸기",
-      "달콤",
-      "슬러시"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "죠스바", "ratio": "1개" }],
+    "taste": ["딸기", "달콤", "슬러시"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 95,
-    "keywords": [
-      "죠스바소주"
-    ],
-    "extraTags": [
-      "색감맛집"
-    ],
+    "keywords": ["죠스바소주"],
+    "extraTags": ["색감맛집"],
     "steps": [
       "죠스바 컵에 넣기",
       "소주 붓기",
       "녹을 때까지 저어 마시기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "핑크색이 주는 안심은 착각이다.",
     "warning": "색이 예뻐서 연타 주의."
   },
   {
     "id": "combo_031",
     "name": "하겐다즈 소주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "바닐라 아이스크림",
-        "ratio": "2스쿱"
-      }
-    ],
-    "taste": [
-      "크리미",
-      "달콤",
-      "부드러움"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "바닐라 아이스크림", "ratio": "2스쿱" }],
+    "taste": ["크리미", "달콤", "부드러움"],
     "alcoholLevel": "중간",
     "difficulty": "쉬움",
     "popularity": 85,
-    "keywords": [
-      "아이스크림소주",
-      "바닐라소주"
-    ],
-    "extraTags": [
-      "홈파티"
-    ],
+    "keywords": ["아이스크림소주", "바닐라소주"],
+    "extraTags": ["홈파티"],
     "steps": [
       "컵에 바닐라 아이스크림 2스쿱",
       "소주 붓기",
       "부드럽게 섞기"
     ],
-    "tools": [
-      "컵",
-      "숟가락"
-    ],
+    "tools": ["컵", "숟가락"],
     "oneLiner": "디저트가 취하게 만든다.",
     "warning": "당도+알코올 조합은 다음 날 숙취 위험."
   },
   {
     "id": "combo_032",
     "name": "소주+얼음컵+아이스티",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "아이스티",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "복숭아",
-      "달콤",
-      "청량"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "아이스티", "ratio": "2" }],
+    "taste": ["복숭아", "달콤", "청량"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 96,
-    "keywords": [
-      "아샷추소주",
-      "편의점조합"
-    ],
-    "extraTags": [
-      "SNS핫",
-      "편의점가능"
-    ],
+    "keywords": ["아샷추소주", "편의점조합"],
+    "extraTags": ["SNS핫", "편의점가능"],
     "steps": [
       "얼음컵 준비",
       "소주 1",
       "아이스티 2",
       "뚜껑 닫고 흔들기"
     ],
-    "tools": [
-      "얼음컵"
-    ],
+    "tools": ["얼음컵"],
     "oneLiner": "편의점 3분 완성 인싸 조합.",
     "warning": "너무 잘 들어가서 과음 위험."
   },
   {
     "id": "combo_033",
     "name": "딸기우유 소주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "딸기우유",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "달콤",
-      "부드러움",
-      "딸기향"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "딸기우유", "ratio": "2" }],
+    "taste": ["달콤", "부드러움", "딸기향"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 90,
-    "keywords": [
-      "딸기우유소주"
-    ],
-    "extraTags": [
-      "초심자추천"
-    ],
+    "keywords": ["딸기우유소주"],
+    "extraTags": ["초심자추천"],
     "steps": [
       "소주 1",
       "딸기우유 2",
       "잘 섞기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "추억의 맛이 취기를 덮는다.",
     "warning": "우유+술 조합은 속 불편할 수 있음."
   },
   {
     "id": "combo_034",
     "name": "초코에몽 소주",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "초코우유",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "초콜릿",
-      "달콤",
-      "부드러움"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "초코우유", "ratio": "2" }],
+    "taste": ["초콜릿", "달콤", "부드러움"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 100,
-    "keywords": [
-      "초코소주"
-    ],
-    "extraTags": [
-      "디저트술"
-    ],
+    "keywords": ["초코소주"],
+    "extraTags": ["디저트술"],
     "steps": [
       "소주 1",
       "초코우유 2",
       "잘 섞기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "초코우유인 척하다가 뒤통수 친다.",
     "warning": "당도 높아서 숙취 확률 상승."
   },
   {
     "id": "combo_035",
     "name": "소주+망고주스",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "망고주스",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "열대",
-      "달콤",
-      "상큼"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "망고주스", "ratio": "2" }],
+    "taste": ["열대", "달콤", "상큼"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 86,
-    "keywords": [
-      "망고소주"
-    ],
-    "extraTags": [
-      "휴양지감성"
-    ],
+    "keywords": ["망고소주"],
+    "extraTags": ["휴양지감성"],
     "steps": [
       "얼음 가득",
       "소주 1",
       "망고주스 2",
       "가볍게 섞기"
     ],
-    "tools": [
-      "컵",
-      "얼음"
-    ],
+    "tools": ["컵", "얼음"],
     "oneLiner": "동남아 느낌으로 취하는 밤.",
     "warning": "주스 느낌 강해서 페이스 조절 필요."
   },
   {
     "id": "combo_036",
     "name": "소주+샤인머스캣 음료",
-    "base": {
-      "type": "소주",
-      "ratio": "1"
-    },
-    "mixers": [
-      {
-        "name": "샤인머스캣 음료",
-        "ratio": "2"
-      }
-    ],
-    "taste": [
-      "상큼",
-      "달콤",
-      "청량"
-    ],
+    "base": { "type": "소주", "ratio": "1" },
+    "mixers": [{ "name": "샤인머스캣 음료", "ratio": "2" }],
+    "taste": ["상큼", "달콤", "청량"],
     "alcoholLevel": "낮음",
     "difficulty": "쉬움",
     "popularity": 91,
-    "keywords": [
-      "샤인소주"
-    ],
-    "extraTags": [
-      "SNS핫",
-      "편의점가능"
-    ],
+    "keywords": ["샤인소주"],
+    "extraTags": ["SNS핫", "편의점가능"],
     "steps": [
       "소주 1",
       "샤인머스캣 음료 2",
       "잘 섞기"
     ],
-    "tools": [
-      "컵"
-    ],
+    "tools": ["컵"],
     "oneLiner": "요즘 감성 그대로 섞은 맛.",
     "warning": "달달함에 속아 연속으로 마시기 쉬움."
   }

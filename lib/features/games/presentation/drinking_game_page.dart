@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 enum GameMood {
-  light('가볍게', 'light'),
-  talk('토크', 'talk'),
-  action('액션', 'action');
+  light('이미지 게임 !', 'light'),
+  talk('대화 주제 !', 'talk'),
+  action('행동 게임 !', 'action');
 
   const GameMood(this.label, this.key);
   final String label;
@@ -87,9 +87,7 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
     if (_deck.isEmpty) {
       _resetDeck();
     }
-    if (_deck.isEmpty) {
-      return;
-    }
+    if (_deck.isEmpty) return;
 
     setState(() {
       _currentMission = _deck.removeLast();
@@ -99,9 +97,7 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
   }
 
   void _changeMood(GameMood mood) {
-    if (_selectedMood == mood) {
-      return;
-    }
+    if (_selectedMood == mood) return;
 
     setState(() {
       _selectedMood = mood;
@@ -138,96 +134,73 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
       );
     }
 
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  '랜덤 술게임',
-                  style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '분위기를 고르고, 아래에서 오늘의 미션을 시작해보세요.',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  height: 44,
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    physics: const BouncingScrollPhysics(),
-                    child: Row(
-                      children: [
-                        for (final mood in GameMood.values) ...[
-                          ChoiceChip(
-                            label: Text(mood.label),
-                            selected: _selectedMood == mood,
-                            onSelected: (_) => _changeMood(mood),
-                          ),
-                          const SizedBox(width: 8),
-                        ],
-                      ],
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                _MissionBottomPanel(
-                  mission: _currentMission,
-                  round: _round,
-                  remaining: _deck.length,
-                  onNext: _pickMission,
-                ),
-              ],
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              '랜덤 술게임',
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w900,
+              ),
             ),
-          ),
+            const SizedBox(height: 8),
+            Text(
+              '주제를 고르고, 하단의 게임 시작 버튼을 눌러보세요.',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: Colors.black54,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 12),
+
+            // ✅ 가로 스크롤 확실히 되게: Row + shrinkWrap 패턴 유지
+            SizedBox(
+              height: 44,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
+                child: Row(
+                  children: [
+                    for (final mood in GameMood.values) ...[
+                      ChoiceChip(
+                        label: Text(mood.label),
+                        selected: _selectedMood == mood,
+                        onSelected: (_) => _changeMood(mood),
+                      ),
+                      const SizedBox(width: 8),
+                    ],
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // ✅ 미션 영역이 화면 절반 이상 차지
+            Expanded(
+              flex: 7,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  _MissionBottomPanel(
+                    mission: _currentMission,
+                    round: _round,
+                    remaining: _deck.length,
+                    onNext: _pickMission,
+                  ),
+                  IgnorePointer(
+                    ignoring: true,
+                    child: _MissionBurst(seed: _burstSeed),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
-    );
-  }
-}
-
-class _StartButtonSection extends StatelessWidget {
-  const _StartButtonSection({
-    required this.mission,
-    required this.onNext,
-  });
-
-  final String? mission;
-  final VoidCallback onNext;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        FilledButton.icon(
-          onPressed: onNext,
-          icon: const Icon(Icons.casino),
-          label: Text(mission == null ? '미션 시작' : '다음 미션'),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'TIP: 과음은 금물! 물도 같이 마셔요 💧',
-          textAlign: TextAlign.center,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: Colors.black54,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
     );
   }
 }
@@ -252,63 +225,90 @@ class _MissionBottomPanel extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Card(
-          elevation: 0,
-          color: theme.colorScheme.surface,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16),
+        // ✅ 카드가 영역 대부분 차지
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.surface,
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: const [
+                BoxShadow(
+                  blurRadius: 18,
+                  offset: Offset(0, 8),
+                  color: Color(0x14000000),
+                ),
+              ],
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '오늘의 미션',
-                  style: theme.textTheme.labelLarge?.copyWith(
+                  '오늘의 주제',
+                  style: theme.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w900,
                     color: Colors.black54,
-                    fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 8),
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 240),
-                  switchInCurve: Curves.easeOut,
-                  switchOutCurve: Curves.easeIn,
-                  child: Text(
-                    mission ?? '아래 버튼을 눌러 미션을 시작해보세요 🍻',
-                    key: ValueKey(mission ?? 'empty'),
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w700,
-                      height: 1.35,
+                const SizedBox(height: 14),
+
+                // ✅ 미션 텍스트를 크게, 중앙 배치
+                Expanded(
+                  child: Center(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 240),
+                      switchInCurve: Curves.easeOut,
+                      switchOutCurve: Curves.easeIn,
+                      child: Text(
+                        mission ?? '아래 버튼을 눌러 게임을 시작해보세요 🍻',
+                        key: ValueKey(mission ?? 'empty'),
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.w900,
+                          height: 1.25,
+                        ),
+                      ),
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 12),
                 Text(
-                  '라운드 $round · 남은 미션 ${remaining}개',
+                  '라운드 $round · 남은 주제 ${remaining}개',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: Colors.black54,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ],
             ),
           ),
         ),
-        const SizedBox(height: 12),
-        FilledButton.icon(
-          onPressed: onNext,
-          icon: const Icon(Icons.casino),
-          label: Text(mission == null ? '미션 시작' : '다음 미션'),
+
+        const SizedBox(height: 14),
+
+        // ✅ 버튼 크게
+        SizedBox(
+          height: 60,
+          child: FilledButton.icon(
+            onPressed: onNext,
+            icon: const Icon(Icons.casino, size: 22),
+            label: Text(
+              mission == null ? '게임 시작' : '다음 주제',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+            ),
+          ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          'TIP: 과음은 금물! 물도 같이 마셔요 💧',
-          textAlign: TextAlign.center,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: Colors.black54,
-            fontWeight: FontWeight.w600,
+
+        const SizedBox(height: 10),
+
+        Center(
+          child: Text(
+            'TIP: 과음은 금물! 물도 같이 마셔요 💧',
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: Colors.black54,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ],
@@ -331,11 +331,11 @@ class _MissionBurst extends StatelessWidget {
       final angle = random.nextDouble() * pi * 2;
       final distance = burstRadius * (0.45 + random.nextDouble() * 0.9);
       return (
-        dx: cos(angle) * distance,
-        dy: sin(angle) * distance,
-        icon: random.nextBool() ? Icons.star_rounded : Icons.circle,
-        color: Colors.primaries[random.nextInt(Colors.primaries.length)],
-        size: 16.0 + random.nextDouble() * 30,
+      dx: cos(angle) * distance,
+      dy: sin(angle) * distance,
+      icon: random.nextBool() ? Icons.star_rounded : Icons.circle,
+      color: Colors.primaries[random.nextInt(Colors.primaries.length)],
+      size: 16.0 + random.nextDouble() * 30,
       );
     });
 
