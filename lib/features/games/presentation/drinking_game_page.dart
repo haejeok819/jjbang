@@ -29,6 +29,7 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
   List<String> _deck = const [];
   String? _currentMission;
   int _round = 0;
+  int _burstSeed = 0;
 
   bool _loading = true;
   String? _loadError;
@@ -99,6 +100,7 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
     setState(() {
       _currentMission = _deck.removeLast();
       _round += 1;
+      _burstSeed += 1;
     });
   }
 
@@ -192,10 +194,19 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
             ),
           ),
           const SizedBox(height: 14),
-          FilledButton.icon(
-            onPressed: _pickMission,
-            icon: const Icon(Icons.casino),
-            label: Text(_currentMission == null ? '미션 시작' : '다음 미션'),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              FilledButton.icon(
+                onPressed: _pickMission,
+                icon: const Icon(Icons.casino),
+                label: Text(_currentMission == null ? '미션 시작' : '다음 미션'),
+              ),
+              if (_burstSeed > 0)
+                IgnorePointer(
+                  child: _MissionBurst(seed: _burstSeed),
+                ),
+            ],
           ),
           const Spacer(),
           Text(
@@ -208,6 +219,58 @@ class _DrinkingGamePageState extends State<DrinkingGamePage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _MissionBurst extends StatelessWidget {
+  const _MissionBurst({required this.seed});
+
+  final int seed;
+
+  @override
+  Widget build(BuildContext context) {
+    final random = Random(seed);
+    final particles = List.generate(14, (_) {
+      final angle = random.nextDouble() * pi * 2;
+      final distance = 26 + random.nextDouble() * 34;
+      return (
+        dx: cos(angle) * distance,
+        dy: sin(angle) * distance,
+        icon: random.nextBool() ? Icons.star_rounded : Icons.circle,
+        color: Colors.primaries[random.nextInt(Colors.primaries.length)],
+        size: 8.0 + random.nextDouble() * 10,
+      );
+    });
+
+    return TweenAnimationBuilder<double>(
+      key: ValueKey(seed),
+      tween: Tween(begin: 0, end: 1),
+      duration: const Duration(milliseconds: 520),
+      curve: Curves.easeOutCubic,
+      builder: (context, t, _) {
+        return Opacity(
+          opacity: (1 - t).clamp(0, 1),
+          child: SizedBox(
+            width: 220,
+            height: 90,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                for (final p in particles)
+                  Transform.translate(
+                    offset: Offset(p.dx * t, p.dy * t),
+                    child: Icon(
+                      p.icon,
+                      size: p.size,
+                      color: p.color,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

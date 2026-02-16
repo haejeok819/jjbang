@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:jjbang/shared/widgets/pressable.dart';
+
 import '../../combos/presentation/combo_detail_page.dart';
 import '../state/favorites_notifier.dart';
 import '../state/favorites_sort_provider.dart';
@@ -27,22 +29,23 @@ class FavoritesPage extends ConsumerWidget {
                 if (items.isEmpty) {
                   return const Center(child: Text('아직 즐겨찾기가 없어요'));
                 }
+
                 return ListView.separated(
                   itemCount: items.length,
                   separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (_, i) {
                     final c = items[i];
-                    return Card(
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(12),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => ComboDetailPage(comboId: c.id),
-                            ),
-                          );
-                        },
+
+                    return Pressable(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => ComboDetailPage(comboId: c.id),
+                          ),
+                        );
+                      },
+                      child: Card(
                         child: Padding(
                           padding: const EdgeInsets.all(14),
                           child: Column(
@@ -77,6 +80,12 @@ class FavoritesPage extends ConsumerWidget {
                                   _Pill(text: '도수 ${c.alcoholLevel}'),
                                   _Pill(text: '난이도 ${c.difficulty}'),
                                 ],
+                              ),
+                              const SizedBox(height: 10),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children: c.taste.map((t) => _Tag(text: t)).toList(),
                               ),
                             ],
                           ),
@@ -113,6 +122,27 @@ class _Pill extends StatelessWidget {
           fontSize: 12,
           fontWeight: FontWeight.w600,
         ),
+      ),
+    );
+  }
+}
+
+class _Tag extends StatelessWidget {
+  const _Tag({required this.text});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.teal.withOpacity(0.12),
+        borderRadius: BorderRadius.circular(999),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
       ),
     );
   }
