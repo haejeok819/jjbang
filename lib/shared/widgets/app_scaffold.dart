@@ -76,6 +76,26 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
           style: const TextStyle(fontFamily: 'NanumSquare', fontWeight: FontWeight.w800),
         ),
         centerTitle: true,
+        toolbarHeight: 100, // 높이 늘려야 여유 생김
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              'assets/logo.png',
+              height: 60,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 6), // 한 줄 띄우기
+            Text(
+              titles[_index],
+              style: const TextStyle(
+                fontFamily: 'NanumSquare',
+                fontWeight: FontWeight.w800,
+                fontSize: 30,
+              ),
+            ),
+          ],
+        ),
         actions: [
           if (_index == _tabCombos)
             Consumer(
@@ -97,6 +117,7 @@ class _AppScaffoldState extends ConsumerState<AppScaffold> {
             ),
         ],
       ),
+
       body: _index == _tabCombos
           ? Column(
         children: const [
