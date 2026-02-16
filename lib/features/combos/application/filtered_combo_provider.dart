@@ -5,16 +5,17 @@ import 'combo_filter_state.dart';
 import 'debounced_query_provider.dart';
 
 enum ComboSort {
-  popularity('인기'),
-  alcohol('도수'),
-  difficulty('난이도');
+  added('최근순'),
+  popularity('인기순'),
+  alcohol('도수순'),
+  difficulty('난이도순');
 
   final String label;
   const ComboSort(this.label);
 }
 
 final comboSortProvider =
-StateProvider.autoDispose<ComboSort>((ref) => ComboSort.popularity);
+    StateProvider.autoDispose<ComboSort>((ref) => ComboSort.popularity);
 
 final filteredComboProvider = FutureProvider.autoDispose<List<Combo>>((ref) async {
   final items = await ref.watch(combosProvider.future);
@@ -73,8 +74,14 @@ final filteredComboProvider = FutureProvider.autoDispose<List<Combo>>((ref) asyn
 
   final filtered = items.where((c) => queryPass(c) && chipPass(c)).toList();
 
+  final addedOrder = <String, int>{
+    for (var i = 0; i < items.length; i++) items[i].id: i,
+  };
+
   filtered.sort((a, b) {
     switch (sort) {
+      case ComboSort.added:
+        return (addedOrder[a.id] ?? 999999).compareTo(addedOrder[b.id] ?? 999999);
       case ComboSort.popularity:
         return b.popularity.compareTo(a.popularity);
       case ComboSort.alcohol:
